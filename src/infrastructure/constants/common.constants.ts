@@ -29,6 +29,7 @@ export class CommonConstants {
   public static readonly SUPPORTED_LANGUAGES = 'SUPPORTED_LANGUAGES';
 
   // MAIL
+  public static readonly MAIL_CONTACT = 'MAIL_CONTACT';
   public static readonly MAIL_PROVIDER = 'MAIL_PROVIDER';
   public static readonly MAIL_PROVIDER_SENDGRID = 'sendgrid';
   public static readonly MAIL_PROVIDER_SMTP = 'smtp';
@@ -141,6 +142,8 @@ export class CommonConstants {
   public static readonly STUART_API_CALCULATE_JOB_PRICE_URL = '/v2/jobs/pricing';
 
   public static readonly DELIVERY_SERVICE = 'DELIVERY_SERVICE';
+  public static readonly DELIVERY_FREE_THRESHOLD_PARIS = 'DELIVERY_FREE_THRESHOLD_PARIS';
+  public static readonly DELIVERY_FREE_THRESHOLD_OUTSIDE_PARIS = 'DELIVERY_FREE_THRESHOLD_OUTSIDE_PARIS';
   public static readonly DELIVERY_SERVICE_STUART = 'stuart';
 
   // WINSTON

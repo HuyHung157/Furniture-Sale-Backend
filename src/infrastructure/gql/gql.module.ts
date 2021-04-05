@@ -30,7 +30,7 @@ import { EnvironmentService } from '../environment/environment.service';
             return { req, res };
           },
           onHealthCheck: () => {
-            return new Promise((resolve, reject) => {
+            return new Promise<void>((resolve, reject) => {
               // Replace the `true` in this conditional with more specific checks!
               if (true) {
                 resolve();
