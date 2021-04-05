@@ -1,6 +1,6 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
-import dotenv from 'dotenv';
-import fs from 'fs';
+import * as dotenv from 'dotenv';
+import * as fs from 'fs';
 import { CommonConstants } from '../constants/common.constants';
 
 export const Language = createParamDecorator(

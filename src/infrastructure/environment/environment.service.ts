@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import dotenv from 'dotenv';
-import fs from 'fs';
+import * as dotenv from 'dotenv';
+import * as fs from 'fs';
 import { CommonConstants } from '../constants/common.constants';
 
 @Injectable()
@@ -9,10 +9,10 @@ export class EnvironmentService {
   private readonly settings: { [key: string]: string };
 
   constructor() {
+    console.log(dotenv, process.env.POSTGRES_HOST);
     this.settings = dotenv.parse(
       fs.readFileSync(CommonConstants.ENV_CONFIG_PATH),
     );
-    console.log(`process.env.NODE_ENV: ${process.env.NODE_ENV}`);
     if (this.isProductionMode() || this.isStagingMode()) {
       for (const key in this.settings) {
         if (this.settings.hasOwnProperty(key) && process.env[key]) {
