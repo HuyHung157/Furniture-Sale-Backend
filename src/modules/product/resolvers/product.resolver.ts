@@ -2,46 +2,45 @@ import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
 import { BaseResponseDto } from 'src/infrastructure/models/base-response.dto';
 import { Product } from '../models/product.entity'
 import { ProductService } from '../services/product.service'
+import { ProductCreateRequestDto } from '../dtos/product/product-create-respest';
+import { ProductUpdateRequestDto } from '../dtos/product/product-update-request';
+import { ProductResponseDto } from '../dtos/product/product-item-response';
+import { ProductListRequestDto } from '../dtos/product/product-list-request';
+import { ProductListResponseDto } from '../dtos/product/product-list-response';
 
 @Resolver()
 export class ProductResolver {
 	constructor(private readonly productService: ProductService) { }
 
-	
-	@Query(() => String)
-  sayHello(): string {
-    return 'Hello World!';
-  }
+	@Query(() => ProductListResponseDto)
+	async getProductList(
+		@Args('input') input: ProductListRequestDto
+	): Promise<ProductListResponseDto> {
+		const result = await this.productService.getProductList(input)
+		return {
+			totalItems: result.count,
+			items: result.items,
+		}
+	}
 
-	// @Query(() => ItemListResponseDto)
-	// async getItems(
-	// 	@Args('input') input: ItemListRequestDto
-	// ): Promise<ItemListResponseDto> {
-	// 	const result = await this.productService.getItems(input)
-	// 	return {
-	// 		totalItems: result.count,
-	// 		items: result.items,
-	// 	}
-	// }
+	@Query(() => ProductResponseDto)
+	async getProductById(@Args('id') id: string) {
+		return this.productService.getProductById(id)
+	}
 
-	// @Query(() => ItemResponseDto)
-	// async getItemById(@Args('id') id: string) {
-	// 	return this.productService.getItemById(id)
-	// }
-
-	// @Mutation(() => ItemResponseDto)
-	// async createItem(@Args('data') data: inputItem) {
-	// 	return this.productService.createItem(data)
-	// }
-
-	// @Mutation(() => BaseResponseDto)
-	// async updateItem(@Args('input') input: inputUpdateItem) {
-	// 	return this.productService.updateItem(input)
-	// }
+	@Mutation(() => ProductResponseDto)
+	async createProduct(@Args('input') input: ProductCreateRequestDto) {
+		return this.productService.createProduct(input)
+	}
 
 	@Mutation(() => BaseResponseDto)
-	async deleteItem(@Args('id') id: string) {
-		return this.productService.deleteItem(id)
+	async updateProduct(@Args('input') input: ProductUpdateRequestDto) {
+		return this.productService.updateProduct(input)
+	}
+
+	@Mutation(() => BaseResponseDto)
+	async deleteProduct(@Args('id') id: string) {
+		return this.productService.deleteProduct(id)
 	}
 
 

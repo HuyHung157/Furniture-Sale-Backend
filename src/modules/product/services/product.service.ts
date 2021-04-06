@@ -4,6 +4,10 @@ import { BaseResponseDto } from "src/infrastructure/models/base-response.dto";
 import { BaseService } from "src/infrastructure/services/base.service";
 import { Connection, Repository } from "typeorm";
 import { Product } from "../models/product.entity";
+import { ProductListRequestDto } from "../dtos/product/product-list-request";
+import { ProductResponseDto } from "../dtos/product/product-item-response";
+import { ProductCreateRequestDto } from "../dtos/product/product-create-respest";
+import { ProductUpdateRequestDto } from "../dtos/product/product-update-request";
 
 @Injectable()
 export class ProductService extends BaseService {
@@ -15,51 +19,51 @@ export class ProductService extends BaseService {
     super(connection);
   }
 
-  // async getItems(input: ItemListRequestDto): Promise<any> {
-	// 	const query = this.productRepository
-	// 		.createQueryBuilder('item')
-	// 		.take(input.paging.pageSize)
-	// 		.skip(input.paging.pageSize * Math.max(0, input.paging.pageIndex - 1));
+  async getProductList(input: ProductListRequestDto): Promise<any> {
+		const query = this.productRepository
+			.createQueryBuilder('item')
+			.take(input.paging.pageSize)
+			.skip(input.paging.pageSize * Math.max(0, input.paging.pageIndex - 1));
 
-	// 	if (input.sorting) {
-	// 		query.addOrderBy(
-	// 			`item.${input.sorting.sortFieldName}`,
-	// 			this.getOrder(input.sorting.descending)
-	// 		);
-	// 	}
+		if (input.sorting) {
+			query.addOrderBy(
+				`item.${input.sorting.sortFieldName}`,
+				this.getOrder(input.sorting.descending)
+			);
+		}
 
-	// 	const [items, count] = await query.getManyAndCount();
-	// 	return { items, count };
-	// }
+		const [items, count] = await query.getManyAndCount();
+		return { items, count };
+	}
 
-	// async getItemById(id: string): Promise<Item> {
-	// 	return await this.productRepository.findOneOrFail(id);
-	// }
+	async getProductById(id: string): Promise<ProductResponseDto> {
+		return await this.productRepository.findOneOrFail(id);
+	}
 
-	// async createItem(data: ItemResponseDto): Promise<Item> {
-	// 	const item = new Item()
-	// 	item.name = data.name
-	// 	item.index = data.index
-	// 	item.type = data.type
+	async createProduct(input: ProductCreateRequestDto): Promise<ProductResponseDto> {
+		const item = new Product()
+		item.name = input.name
+		item.index = input.index
+		item.type = input.type
 
-	// 	await this.productRepository.save(item)
+		await this.productRepository.save(item)
 
-	// 	return item
-	// }
+		return item;
+	}
 
-	// async updateItem(input: inputUpdateItem): Promise<BaseResponseDto> {
-	// 	const item = await this.getItemById(input.id)
-	// 	Object.assign(item, input)
-	// 	await this.productRepository.save(item);
-	// 	return new BaseResponseDto('Updated success !', 200);
-	// }
+	async updateProduct(input: ProductUpdateRequestDto): Promise<BaseResponseDto> {
+		const item = await this.getProductById(input.id)
+		Object.assign(item, input)
+		await this.productRepository.save(item);
+		return new BaseResponseDto('Updated success !', 200);
+	}
 
-	async deleteItem(id: string): Promise<BaseResponseDto> {
+	async deleteProduct(id: string): Promise<BaseResponseDto> {
 		await this.productRepository.delete(id);
 		return new BaseResponseDto('Delete success !', 200);
 	}
 
-	// private getOrder(desc: boolean) {
-	// 	return desc ? 'DESC' : 'ASC';
-	// }
+	private getOrder(desc: boolean) {
+		return desc ? 'DESC' : 'ASC';
+	}
 }

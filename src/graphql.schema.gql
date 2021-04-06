@@ -7,10 +7,65 @@ type BaseResponseType {
   statusCode: Float
 }
 
+type ProductResponseType {
+  id: ID!
+  name: String
+  type: String
+  index: Float
+  createdAt: DateTime
+  createdBy: String
+  updatedAt: DateTime
+  updatedBy: String
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type ProductListResponseType {
+  totalItems: Float!
+  items: [ProductResponseType!]
+}
+
 type Query {
-  sayHello: String!
+  getProductList(input: ProductListRequestType!): ProductListResponseType!
+  getProductById(id: String!): ProductResponseType!
+}
+
+input ProductListRequestType {
+  keyword: String
+  paging: PagingInput!
+  sorting: SortingInput
+}
+
+input PagingInput {
+  pageIndex: Int = 1
+  pageSize: Int = 50
+  notLoadCount: Boolean = false
+  numberPageToLoad: Int = null
+}
+
+input SortingInput {
+  sortFieldName: String!
+  descending: Boolean = false
 }
 
 type Mutation {
-  deleteItem(id: String!): BaseResponseType!
+  createProduct(input: ProductCreateRequestType!): ProductResponseType!
+  updateProduct(input: ProductUpdateRequestType!): BaseResponseType!
+  deleteProduct(id: String!): BaseResponseType!
+}
+
+input ProductCreateRequestType {
+  name: String!
+  type: String
+  index: Float
+}
+
+input ProductUpdateRequestType {
+  id: String!
+  name: String!
+  type: String!
+  index: Float
 }
