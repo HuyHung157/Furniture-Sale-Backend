@@ -3,12 +3,12 @@ import { BaseEntity } from "src/infrastructure/models/base.entity";
 import { Product } from "src/modules/product/models/product.entity";
 import { Category } from "./category.entity";
 
-@Entity({ name: 'category'})
+@Entity({ name: 'product-category'})
 export class ProductCategory extends BaseEntity {
-  @Column({ type: 'uuid', name: 'product_id', nullable: true })
+  @Column({ type: 'uuid', name: 'product_id'})
   itemId: string;
 
-  @Column({ type: 'uuid', name: 'category_id', nullable: true })
+  @Column({ type: 'uuid', name: 'category_id'})
   orderId: string;
 
   @Column({ default: true, name: 'is_available' })

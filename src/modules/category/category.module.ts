@@ -3,6 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { EnvironmentModule } from 'src/infrastructure/environment/environment.module';
 import { Category } from './models/category.entity';
 import { ProductCategory } from './models/product-category';
+import { CategoryResolver } from './resolvers/category.resolver';
+import { CategoryService } from './services/category.service';
 
 @Module({
   imports: [
@@ -12,7 +14,7 @@ import { ProductCategory } from './models/product-category';
       ProductCategory
     ]),
   ],
-  providers: [],
-  exports: [],
+  providers: [CategoryResolver, CategoryService],
+  exports: [CategoryService],
 })
-export class ProductModule {}
+export class CategoryModule {}
