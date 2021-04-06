@@ -68,4 +68,5 @@ input ProductUpdateRequestType {
   name: String!
   type: String!
   index: Float
+  isActive: Boolean
 }

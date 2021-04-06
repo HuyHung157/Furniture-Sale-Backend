@@ -15,4 +15,7 @@ export class ProductUpdateRequestDto {
 
   @Field({ nullable: true })
   index: number;
+
+  @Field({ nullable: true })
+  isActive: boolean;
 }

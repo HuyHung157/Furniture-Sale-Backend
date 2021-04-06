@@ -4,10 +4,10 @@ import { BaseResponseDto } from "src/infrastructure/models/base-response.dto";
 import { BaseService } from "src/infrastructure/services/base.service";
 import { Connection, Repository } from "typeorm";
 import { Product } from "../models/product.entity";
-import { ProductListRequestDto } from "../dtos/product/product-list-request";
-import { ProductResponseDto } from "../dtos/product/product-item-response";
-import { ProductCreateRequestDto } from "../dtos/product/product-create-respest";
-import { ProductUpdateRequestDto } from "../dtos/product/product-update-request";
+import { ProductListRequestDto } from "../dtos/product-list-request";
+import { ProductResponseDto } from "../dtos/product-item-response";
+import { ProductCreateRequestDto } from "../dtos/product-create-respest";
+import { ProductUpdateRequestDto } from "../dtos/product-update-request";
 
 @Injectable()
 export class ProductService extends BaseService {

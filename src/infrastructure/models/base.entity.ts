@@ -37,14 +37,6 @@ export abstract class BaseEntity {
   @Column({ name: 'updated_by', type: 'varchar', length: 300, nullable: true })
   updatedBy?: string;
 
-  @Column({
-    name: 'internal_comment',
-    type: 'varchar',
-    length: 300,
-    nullable: true,
-  })
-  internalComment?: string | null;
-
   @VersionColumn()
   version: number;
 }

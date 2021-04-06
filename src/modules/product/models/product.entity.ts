@@ -1,10 +1,10 @@
 // import { ItemCategory } from 'src/category/entity/item-category.entity';
 import { Entity, PrimaryGeneratedColumn, Column, UpdateDateColumn, CreateDateColumn, OneToMany } from 'typeorm'
+import { BaseEntity } from "src/infrastructure/models/base.entity"
+import { ProductCategory } from 'src/modules/category/models/product-category';
 
 @Entity({ name: 'product' })
-export class Product {
-	@PrimaryGeneratedColumn('uuid') id: string
-
+export class Product extends BaseEntity {
 	@Column('varchar', { length: 500, unique: true })
 	name: string;
 
@@ -14,28 +14,39 @@ export class Product {
 	@Column('numeric')
 	index: number;
 
-	@CreateDateColumn({
-		name: 'created_at',
-		type: 'timestamp without time zone',
-		default: () => 'CURRENT_TIMESTAMP',
-	})
-	createdAt?: Date;
+	@Column({
+    name: 'description',
+    type: 'varchar',
+    nullable: true,
+  })
+  description?: string;
 
-	@Column({ name: 'created_by', type: 'varchar', length: 300, nullable: true })
-	createdBy?: string;
+  @Column({
+    name: 'price',
+    type: 'float',
+    default: 0,
+  })
+	price: number;
 
-	@UpdateDateColumn({
-		name: 'updated_at',
-		type: 'timestamp without time zone',
-		default: () => 'CURRENT_TIMESTAMP',
-	})
-	updatedAt?: Date;
+	@Column({
+    name: 'size',
+    type: 'varchar',
+  })
+	size: string;
 
-	@Column({ name: 'updated_by', type: 'varchar', length: 300, nullable: true })
-	updatedBy?: string;
+	@Column({
+    name: 'color',
+    type: 'varchar',
+  })
+	color: string;
+	
+	@Column({
+    name: 'picture_url',
+    type: 'varchar',
+    nullable: true,
+  })
+  pictureUrl: string;
 
-	// @OneToMany(() => ItemCategory, category => category.itemId, {
-	// 	nullable: true,
-	// })
-	// categoryId: ItemCategory[];
+	@OneToMany(() => ProductCategory, productCate => productCate.product)
+	productCategory: ProductCategory[];
 }

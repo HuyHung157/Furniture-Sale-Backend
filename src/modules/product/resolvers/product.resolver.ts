@@ -2,11 +2,11 @@ import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
 import { BaseResponseDto } from 'src/infrastructure/models/base-response.dto';
 import { Product } from '../models/product.entity'
 import { ProductService } from '../services/product.service'
-import { ProductCreateRequestDto } from '../dtos/product/product-create-respest';
-import { ProductUpdateRequestDto } from '../dtos/product/product-update-request';
-import { ProductResponseDto } from '../dtos/product/product-item-response';
-import { ProductListRequestDto } from '../dtos/product/product-list-request';
-import { ProductListResponseDto } from '../dtos/product/product-list-response';
+import { ProductCreateRequestDto } from '../dtos/product-create-respest';
+import { ProductListRequestDto } from '../dtos/product-list-request';
+import { ProductListResponseDto } from '../dtos/product-list-response';
+import { ProductResponseDto } from '../dtos/product-item-response';
+import { ProductUpdateRequestDto } from '../dtos/product-update-request';
 
 @Resolver()
 export class ProductResolver {
