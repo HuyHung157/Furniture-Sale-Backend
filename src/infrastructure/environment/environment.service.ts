@@ -9,7 +9,6 @@ export class EnvironmentService {
   private readonly settings: { [key: string]: string };
 
   constructor() {
-    console.log(dotenv, process.env.POSTGRES_HOST);
     this.settings = dotenv.parse(
       fs.readFileSync(CommonConstants.ENV_CONFIG_PATH),
     );

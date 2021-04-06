@@ -3,7 +3,7 @@ import { BaseResponseDto } from 'src/infrastructure/models/base-response.dto';
 import { Product } from '../models/product.entity'
 import { ProductService } from '../services/product.service'
 
-@Resolver((of) => Product)
+@Resolver()
 export class ProductResolver {
 	constructor(private readonly productService: ProductService) { }
 

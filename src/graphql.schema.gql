@@ -1,0 +1,16 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type BaseResponseType {
+  message: String
+  statusCode: Float
+}
+
+type Query {
+  sayHello: String!
+}
+
+type Mutation {
+  deleteItem(id: String!): BaseResponseType!
+}
