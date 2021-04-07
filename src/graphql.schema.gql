@@ -61,6 +61,9 @@ input ProductCreateRequestType {
   name: String!
   type: String
   index: Float
+  price: Float
+  discount: Float
+  categoryIds: [String!]!
 }
 
 input ProductUpdateRequestType {

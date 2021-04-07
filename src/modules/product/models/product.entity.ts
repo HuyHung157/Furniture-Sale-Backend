@@ -28,6 +28,20 @@ export class Product extends BaseEntity {
   })
 	price: number;
 
+	@Column({ 
+		name: 'reference_price',
+		type: 'float',
+		default: 0
+	})
+	referencePrice
+
+	@Column({
+    name: 'discount',
+    type: 'float',
+    default: 0,
+  })
+	discount: number;
+
 	@Column({
     name: 'size',
     type: 'varchar',

@@ -6,7 +6,7 @@ import { Connection, Repository } from "typeorm";
 import { Product } from "../models/product.entity";
 import { ProductListRequestDto } from "../dtos/product-list-request";
 import { ProductResponseDto } from "../dtos/product-item-response";
-import { ProductCreateRequestDto } from "../dtos/product-create-respest";
+import { ProductCreateRequestDto } from "../dtos/product-create-resquest";
 import { ProductUpdateRequestDto } from "../dtos/product-update-request";
 
 @Injectable()

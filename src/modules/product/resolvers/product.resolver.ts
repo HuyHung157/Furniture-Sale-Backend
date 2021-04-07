@@ -1,7 +1,7 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
 import { BaseResponseDto } from 'src/infrastructure/models/base-response.dto';
 import { ProductService } from '../services/product.service'
-import { ProductCreateRequestDto } from '../dtos/product-create-respest';
+import { ProductCreateRequestDto } from '../dtos/product-create-resquest';
 import { ProductListRequestDto } from '../dtos/product-list-request';
 import { ProductListResponseDto } from '../dtos/product-list-response';
 import { ProductResponseDto } from '../dtos/product-item-response';

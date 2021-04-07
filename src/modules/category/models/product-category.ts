@@ -5,12 +5,6 @@ import { Category } from "./category.entity";
 
 @Entity({ name: 'product-category'})
 export class ProductCategory extends BaseEntity {
-  // @Column({ type: 'uuid', name: 'product_id'})
-  // itemId: string;
-
-  // @Column({ type: 'uuid', name: 'category_id'})
-  // categoryId: string;
-
   @Column({ default: true, name: 'is_available' })
   isAvailable?: boolean;
 

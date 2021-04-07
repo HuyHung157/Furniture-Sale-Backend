@@ -10,4 +10,13 @@ export class ProductCreateRequestDto {
 
   @Field({ nullable: true })
   index?: number;
+
+  @Field({ nullable: true })
+  price?: number;
+
+  @Field({ nullable: true })
+  discount?: number;
+
+  @Field(() => [String])
+  categoryIds?: string[];
 }
