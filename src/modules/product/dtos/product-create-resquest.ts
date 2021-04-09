@@ -12,11 +12,26 @@ export class ProductCreateRequestDto {
   index?: number;
 
   @Field({ nullable: true })
+  description?: string;
+
+  @Field({ nullable: true })
   price?: number;
+
+  @Field({ nullable: true })
+  referencePrice?: number;
 
   @Field({ nullable: true })
   discount?: number;
 
-  @Field(() => [String])
+  @Field({ nullable: true })
+  size?: string;
+
+  @Field({ nullable: true })
+  color?: string;
+
+  @Field({ nullable: true })
+  pictureUrl: string;
+
+  @Field(() => [String], { nullable: true })
   categoryIds?: string[];
 }

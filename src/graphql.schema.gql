@@ -9,9 +9,17 @@ type BaseResponseType {
 
 type ProductResponseType {
   id: ID!
-  name: String
+  name: String!
   type: String
   index: Float
+  description: String
+  price: Float
+  referencePrice: Float
+  discount: Float
+  size: String
+  color: String
+  pictureUrl: String
+  categoryIds: [String!]!
   createdAt: DateTime
   createdBy: String
   updatedAt: DateTime
@@ -52,7 +60,7 @@ input SortingInput {
 }
 
 type Mutation {
-  createProduct(input: ProductCreateRequestType!): ProductResponseType!
+  createProduct(input: ProductCreateRequestType!): BaseResponseType!
   updateProduct(input: ProductUpdateRequestType!): BaseResponseType!
   deleteProduct(id: String!): BaseResponseType!
 }
@@ -61,15 +69,28 @@ input ProductCreateRequestType {
   name: String!
   type: String
   index: Float
+  description: String
   price: Float
+  referencePrice: Float
   discount: Float
-  categoryIds: [String!]!
+  size: String
+  color: String
+  pictureUrl: String
+  categoryIds: [String!]
 }
 
 input ProductUpdateRequestType {
   id: String!
   name: String!
-  type: String!
+  type: String
   index: Float
+  description: String
+  price: Float
+  referencePrice: Float
+  discount: Float
+  size: String
+  color: String
+  pictureUrl: String
+  categoryIds: [String!]!
   isActive: Boolean
 }

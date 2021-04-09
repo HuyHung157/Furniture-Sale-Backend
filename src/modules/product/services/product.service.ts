@@ -40,15 +40,14 @@ export class ProductService extends BaseService {
 		return await this.productRepository.findOneOrFail(id);
 	}
 
-	async createProduct(input: ProductCreateRequestDto): Promise<ProductResponseDto> {
+	async createProduct(input: ProductCreateRequestDto): Promise<BaseResponseDto> {
 		const item = new Product()
 		item.name = input.name
 		item.index = input.index
 		item.type = input.type
 
 		await this.productRepository.save(item)
-
-		return item;
+		return new BaseResponseDto('Created success !', 200);
 	}
 
 	async updateProduct(input: ProductUpdateRequestDto): Promise<BaseResponseDto> {

@@ -45,12 +45,14 @@ export class Product extends BaseEntity {
 	@Column({
     name: 'size',
     type: 'varchar',
+    nullable: true,
   })
 	size: string;
 
 	@Column({
     name: 'color',
     type: 'varchar',
+    nullable: true,
   })
 	color: string;
 	

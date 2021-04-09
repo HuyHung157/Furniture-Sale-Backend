@@ -27,7 +27,7 @@ export class ProductResolver {
 		return this.productService.getProductById(id)
 	}
 
-	@Mutation(() => ProductResponseDto)
+	@Mutation(() => BaseResponseDto)
 	async createProduct(@Args('input') input: ProductCreateRequestDto) {
 		return this.productService.createProduct(input)
 	}
