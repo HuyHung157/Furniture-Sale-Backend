@@ -10,9 +10,9 @@ export class ProductCategory extends BaseEntity {
 
   @ManyToOne(() => Product, product => product.productCategory)
   @JoinColumn({ name: 'product_id' })
-  product: Product[];
+  product: Product;
 
   @ManyToOne(() => Category, category => category.productCategory )
   @JoinColumn({ name: 'category_id' })
-  category: Category[];
+  category: Category;
 }

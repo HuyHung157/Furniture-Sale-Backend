@@ -6,5 +6,12 @@ export class CategoryCreateRequestDto{
   name: string;
 
   @Field({})
-  type: string;
+  type?: string;
+
+  @Field({})
+  index?: number;
+
+
+  @Field({})
+  description?: string;
 }

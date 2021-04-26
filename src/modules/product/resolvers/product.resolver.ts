@@ -1,11 +1,11 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
 import { BaseResponseDto } from 'src/infrastructure/models/base-response.dto';
 import { ProductService } from '../services/product.service'
-import { ProductCreateRequestDto } from '../dtos/product-create-resquest';
-import { ProductListRequestDto } from '../dtos/product-list-request';
-import { ProductListResponseDto } from '../dtos/product-list-response';
-import { ProductResponseDto } from '../dtos/product-item-response';
-import { ProductUpdateRequestDto } from '../dtos/product-update-request';
+import { ProductCreateRequestDto } from '../dto/product-create-resquest';
+import { ProductListRequestDto } from '../dto/product-list-request';
+import { ProductListResponseDto } from '../dto/product-list-response';
+import { ProductResponseDto } from '../dto/product-item-response';
+import { ProductUpdateRequestDto } from '../dto/product-update-request';
 
 @Resolver()
 export class ProductResolver {
@@ -38,9 +38,8 @@ export class ProductResolver {
 	}
 
 	@Mutation(() => BaseResponseDto)
-	async deleteProduct(@Args('id') id: string) {
-		return this.productService.deleteProduct(id)
+	async deleteProduct(@Args('id') id: string): Promise<BaseResponseDto> {
+		await this.productService.deleteProduct(id);
+		return new BaseResponseDto('Delete success !', 200);
 	}
-
-
 }
