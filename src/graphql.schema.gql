@@ -1,0 +1,96 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type BaseResponseType {
+  message: String
+  statusCode: Float
+}
+
+type ProductResponseType {
+  id: ID!
+  name: String!
+  type: String
+  index: Float
+  description: String
+  price: Float
+  referencePrice: Float
+  discount: Float
+  size: String
+  color: String
+  pictureUrl: String
+  categoryIds: [String!]!
+  createdAt: DateTime
+  createdBy: String
+  updatedAt: DateTime
+  updatedBy: String
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type ProductListResponseType {
+  totalItems: Float!
+  items: [ProductResponseType!]
+}
+
+type Query {
+  getProductList(input: ProductListRequestType!): ProductListResponseType!
+  getProductById(id: String!): ProductResponseType!
+}
+
+input ProductListRequestType {
+  keyword: String
+  paging: PagingInput!
+  sorting: SortingInput
+}
+
+input PagingInput {
+  pageIndex: Int = 1
+  pageSize: Int = 50
+  notLoadCount: Boolean = false
+  numberPageToLoad: Int = null
+}
+
+input SortingInput {
+  sortFieldName: String!
+  descending: Boolean = false
+}
+
+type Mutation {
+  createProduct(input: ProductCreateRequestType!): BaseResponseType!
+  updateProduct(input: ProductUpdateRequestType!): BaseResponseType!
+  deleteProduct(id: String!): BaseResponseType!
+}
+
+input ProductCreateRequestType {
+  name: String!
+  type: String
+  index: Float
+  description: String
+  price: Float
+  referencePrice: Float
+  discount: Float
+  size: String
+  color: String
+  pictureUrl: String
+  categoryIds: [String!]
+}
+
+input ProductUpdateRequestType {
+  id: String!
+  name: String!
+  type: String
+  index: Float
+  description: String
+  price: Float
+  referencePrice: Float
+  discount: Float
+  size: String
+  color: String
+  pictureUrl: String
+  categoryIds: [String!]!
+  isActive: Boolean
+}
