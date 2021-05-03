@@ -1,17 +1,16 @@
 import { InputType, Field } from "@nestjs/graphql";
 
 @InputType('CategoryCreateRequestType')
-export class CategoryCreateRequestDto{
+export class CategoryCreateRequestDto {
   @Field()
   name: string;
 
-  @Field({})
+  @Field({ nullable: true })
   type?: string;
 
-  @Field({})
+  @Field({ nullable: true })
   index?: number;
 
-
-  @Field({})
+  @Field({ nullable: true })
   description?: string;
 }

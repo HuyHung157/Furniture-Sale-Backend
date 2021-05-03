@@ -7,6 +7,28 @@ type BaseResponseType {
   statusCode: Float
 }
 
+type CateogoryResponseType {
+  id: ID!
+  name: String!
+  type: String
+  index: Float
+  description: String
+  createdAt: DateTime
+  createdBy: String
+  updatedAt: DateTime
+  updatedBy: String
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type CategoryListResponseType {
+  totalItems: Float!
+  items: [CateogoryResponseType!]
+}
+
 type ProductResponseType {
   id: ID!
   name: String!
@@ -26,11 +48,6 @@ type ProductResponseType {
   updatedBy: String
 }
 
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
 type ProductListResponseType {
   totalItems: Float!
   items: [ProductResponseType!]
@@ -39,6 +56,9 @@ type ProductListResponseType {
 type Query {
   getProductList(input: ProductListRequestType!): ProductListResponseType!
   getProductById(id: String!): ProductResponseType!
+  getCategoryList: CategoryListResponseType!
+  getCategoryListWithPaging(input: BaseSearchInput!): CategoryListResponseType!
+  getCategoryById(id: String!): CateogoryResponseType!
 }
 
 input ProductListRequestType {
@@ -59,10 +79,17 @@ input SortingInput {
   descending: Boolean = false
 }
 
+input BaseSearchInput {
+  keyword: String
+  paging: PagingInput!
+  sorting: SortingInput
+}
+
 type Mutation {
   createProduct(input: ProductCreateRequestType!): BaseResponseType!
   updateProduct(input: ProductUpdateRequestType!): BaseResponseType!
   deleteProduct(id: String!): BaseResponseType!
+  createCategory(input: CategoryCreateRequestType!): BaseResponseType!
 }
 
 input ProductCreateRequestType {
@@ -93,4 +120,11 @@ input ProductUpdateRequestType {
   pictureUrl: String
   categoryIds: [String!]!
   isActive: Boolean
+}
+
+input CategoryCreateRequestType {
+  name: String!
+  type: String
+  index: Float
+  description: String
 }

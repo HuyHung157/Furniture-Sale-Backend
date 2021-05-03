@@ -2,18 +2,18 @@ import { Entity, Column, OneToMany } from "typeorm";
 import { BaseEntity } from "src/infrastructure/models/base.entity";
 import { ProductCategory } from "./product-category";
 
-@Entity({ name: 'category'})
+@Entity({ name: 'category' })
 export class Category extends BaseEntity {
   @Column('varchar', { length: 500, unique: true })
-	name: string;
+  name: string;
 
-	@Column('varchar', { length: 500 })
-	type: string;
+  @Column('varchar', { length: 500 })
+  type?: string;
 
-	@Column('numeric')
-	index: number;
+  @Column('numeric')
+  index?: number;
 
-	@Column({
+  @Column({
     name: 'description',
     type: 'varchar',
     nullable: true,

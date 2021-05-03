@@ -17,4 +17,4 @@ import { CategoryService } from './services/category.service';
   providers: [CategoryResolver, CategoryService],
   exports: [CategoryService],
 })
-export class CategoryModule {}
+export class CategoryModule { }
