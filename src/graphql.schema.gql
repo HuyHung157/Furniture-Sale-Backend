@@ -29,6 +29,11 @@ type CategoryListResponseType {
   items: [CateogoryResponseType!]
 }
 
+type CategoryListItemResponseType {
+  id: String!
+  category: CateogoryResponseType!
+}
+
 type ProductResponseType {
   id: ID!
   name: String!
@@ -41,7 +46,7 @@ type ProductResponseType {
   size: String
   color: String
   pictureUrl: String
-  categoryIds: [String!]!
+  categories: [CategoryListItemResponseType!]
   createdAt: DateTime
   createdBy: String
   updatedAt: DateTime

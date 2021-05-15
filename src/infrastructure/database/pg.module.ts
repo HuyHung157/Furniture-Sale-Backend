@@ -14,12 +14,10 @@ export class PgModule {
         TypeOrmModule.forRootAsync({
           imports: [EnvironmentModule],
           useFactory: async (environmentService: EnvironmentService) =>
-            (
-              console.log(environmentService.getTypeOrmConfig({ entities: config.entities })),
-              {
-              ...environmentService.getTypeOrmConfig({ entities: config.entities }),
-              synchronize: true,
-            } as TypeOrmModuleOptions),
+          ({
+            ...environmentService.getTypeOrmConfig({ entities: config.entities }),
+            synchronize: true,
+          } as TypeOrmModuleOptions),
           inject: [EnvironmentService],
         }),
       ],

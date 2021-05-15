@@ -20,6 +20,6 @@ export class Category extends BaseEntity {
   })
   description?: string;
 
-  @OneToMany(() => ProductCategory, productCate => productCate.category)
-  productCategory: ProductCategory[];
+  @OneToMany(() => ProductCategory, productCate => productCate.category, { nullable: true, })
+  products: ProductCategory[];
 }

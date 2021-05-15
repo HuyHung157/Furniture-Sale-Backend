@@ -24,13 +24,13 @@ export class ProductService extends BaseService {
 
 	async getProductList(input: ProductListRequestDto): Promise<any> {
 		const query = this.productRepository
-			.createQueryBuilder('item')
+			.createQueryBuilder('product')
 			.take(input.paging.pageSize)
 			.skip(input.paging.pageSize * Math.max(0, input.paging.pageIndex - 1));
 
 		if (input.sorting) {
 			query.addOrderBy(
-				`item.${input.sorting.sortFieldName}`,
+				`product.${input.sorting.sortFieldName}`,
 				this.getOrder(input.sorting.descending)
 			);
 		}
@@ -40,7 +40,22 @@ export class ProductService extends BaseService {
 	}
 
 	async getProductById(id: string): Promise<ProductResponseDto> {
-		return await this.productRepository.findOneOrFail(id);
+		const query = this.productRepository
+			.createQueryBuilder('product')
+			.leftJoinAndSelect(
+				'product.categories',
+				'categories',
+				'categories.isArchived = false',
+			)
+			.leftJoinAndSelect('categories.category', 'category')
+			.where('product.id = :id', {
+				id: id,
+			})
+			.andWhere('categories.isActive = true')
+			.andWhere('product.isActive = true')
+			.andWhere('product.isArchived = false');
+		const result = await query.getOne();
+		return result;
 	}
 
 	async createProduct(input: ProductCreateRequestDto): Promise<BaseResponseDto> {

@@ -8,11 +8,11 @@ export class ProductCategory extends BaseEntity {
   @Column({ default: true, name: 'is_available' })
   isAvailable?: boolean;
 
-  @ManyToOne(() => Product, product => product.productCategory)
+  @ManyToOne(() => Product, product => product.categories)
   @JoinColumn({ name: 'product_id' })
   product: Product;
 
-  @ManyToOne(() => Category, category => category.productCategory)
+  @ManyToOne(() => Category, category => category.products)
   @JoinColumn({ name: 'category_id' })
   category: Category;
 }

@@ -8,8 +8,15 @@
     "allowSyntheticDefaultImports": true,
     "target": "es2017",
     "sourceMap": true,
+    "incremental": true,
     "outDir": "./dist",
     "baseUrl": "./",
-    "incremental": true
-  }
+    "paths": {
+      "@infrastructure/*": ["src/infrastructure/*"],
+      "@modules/*": ["src/modules/*"],
+      "@constants/*": ["src/constants/*"],
+      "@guards/*": ["src/guards/*"],
+      "@interceptors/*": ["src/interceptors/*"]
+    },
+  },
 }
