@@ -41,5 +41,5 @@ export class ProductUpdateRequestDto {
   categoryIds?: string[];
 
   @Field({ nullable: true })
-  isActive: boolean;
+  isAvailable?: boolean;
 }

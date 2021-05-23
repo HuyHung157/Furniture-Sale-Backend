@@ -4,8 +4,8 @@ import { CategoryListItemResponseDto } from "./product-list-categorys-response.d
 
 @ObjectType('ProductResponseType')
 export class ProductResponseDto extends BaseDto {
-  @Field()
-  name: string;
+  @Field({ nullable: true })
+  name?: string;
 
   @Field({ nullable: true })
   type?: string;
@@ -32,7 +32,7 @@ export class ProductResponseDto extends BaseDto {
   color?: string;
 
   @Field({ nullable: true })
-  pictureUrl: string;
+  pictureUrl?: string;
 
   @Field(() => [CategoryListItemResponseDto], { nullable: true })
   categories?:  CategoryListItemResponseDto[];
@@ -48,4 +48,7 @@ export class ProductResponseDto extends BaseDto {
 
   @Field({ nullable: true })
   updatedBy?: string;
+
+  @Field({ nullable: true })
+  isAvailable?: boolean;
 }

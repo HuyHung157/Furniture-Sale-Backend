@@ -17,14 +17,14 @@ export class Product extends BaseEntity {
   name: string;
 
   @Column({
-    name: 'description',
+    name: 'type',
     type: 'varchar',
     nullable: true,
   })
   type: string;
 
   @Column({
-    name: 'description',
+    name: 'index',
     type: 'numeric',
     nullable: true,
   })

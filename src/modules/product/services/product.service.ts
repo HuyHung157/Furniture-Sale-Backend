@@ -126,12 +126,12 @@ export class ProductService extends BaseService {
 
 	private async internalCreateItemCategories(
 		manager: EntityManager,
-		categoriesId: string[],
+		categories: string[],
 		itemId: string,
 		createById?: string,
 	) {
-		if (categoriesId) {
-			const isCategoriesExist = await this.categoryService.isCategoriesExist(categoriesId);
+		if (categories) {
+			const isCategoriesExist = await this.categoryService.isCategoriesExist(categories);
 			if (!isCategoriesExist) {
 				throw new NotFoundException({
 					message: 'Categories not found',
@@ -140,8 +140,8 @@ export class ProductService extends BaseService {
 			}
 		}
 
-		if (categoriesId && categoriesId.length > 0) {
-			const inputs = categoriesId.map(categoryId => ({
+		if (categories && categories.length > 0) {
+			const inputs = categories.map(categoryId => ({
 				product: { id: itemId },
 				createBy: createById,
 				category: { id: categoryId },

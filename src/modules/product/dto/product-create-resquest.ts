@@ -32,6 +32,9 @@ export class ProductCreateRequestDto {
   @Field({ nullable: true })
   pictureUrl: string;
 
+  @Field({ nullable: true })
+  isAvailable?: boolean;
+
   @Field(() => [String], { nullable: true })
   categoryIds?: string[];
 }

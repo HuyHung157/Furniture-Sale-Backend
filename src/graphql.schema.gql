@@ -36,7 +36,7 @@ type CategoryListItemResponseType {
 
 type ProductResponseType {
   id: ID!
-  name: String!
+  name: String
   type: String
   index: Float
   description: String
@@ -51,6 +51,7 @@ type ProductResponseType {
   createdBy: String
   updatedAt: DateTime
   updatedBy: String
+  isAvailable: Boolean
 }
 
 type ProductListResponseType {
@@ -108,6 +109,7 @@ input ProductCreateRequestType {
   size: String
   color: String
   pictureUrl: String
+  isAvailable: Boolean
   categoryIds: [String!]
 }
 
@@ -124,7 +126,7 @@ input ProductUpdateRequestType {
   color: String
   pictureUrl: String
   categoryIds: [String!]!
-  isActive: Boolean
+  isAvailable: Boolean
 }
 
 input CategoryCreateRequestType {
