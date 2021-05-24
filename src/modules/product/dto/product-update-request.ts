@@ -37,9 +37,10 @@ export class ProductUpdateRequestDto {
   @Field({ nullable: true })
   pictureUrl: string;
 
+  @Field({ nullable: true })
+  isActive?: boolean;
+
   @Field(() => [String])
   categoryIds?: string[];
-
-  @Field({ nullable: true })
-  isAvailable?: boolean;
+  
 }

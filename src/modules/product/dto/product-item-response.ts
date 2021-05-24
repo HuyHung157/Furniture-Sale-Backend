@@ -50,5 +50,5 @@ export class ProductResponseDto extends BaseDto {
   updatedBy?: string;
 
   @Field({ nullable: true })
-  isAvailable?: boolean;
+  isActive?: boolean;
 }

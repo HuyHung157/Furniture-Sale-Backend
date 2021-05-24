@@ -10,6 +10,7 @@ import { ProductCreateRequestDto } from "../dto/product-create-resquest";
 import { ProductUpdateRequestDto } from "../dto/product-update-request";
 import { CategoryService } from "src/modules/category/services/category.service";
 import { ProductCategory } from "src/modules/category/models/product-category";
+import { UserInputError } from "apollo-server-errors";
 
 @Injectable()
 export class ProductService extends BaseService {
@@ -25,6 +26,8 @@ export class ProductService extends BaseService {
 	async getProductList(input: ProductListRequestDto): Promise<any> {
 		const query = this.productRepository
 			.createQueryBuilder('product')
+			.where( 'product.isActive = true')
+			.andWhere('product.isArchived = false')
 			.take(input.paging.pageSize)
 			.skip(input.paging.pageSize * Math.max(0, input.paging.pageIndex - 1));
 
@@ -84,10 +87,53 @@ export class ProductService extends BaseService {
 		return new BaseResponseDto('Created success !', 200);
 	}
 
-	async updateProduct(input: ProductUpdateRequestDto): Promise<BaseResponseDto> {
+	async updateProduct(input): Promise<BaseResponseDto> {
 		const item = await this.getProductById(input.id)
-		Object.assign(item, input)
-		await this.productRepository.save(item);
+		if (!item.id) {
+      return new UserInputError('Item not found');
+    }
+	
+		const handler = async (queryRunner: QueryRunner) => {
+      const manager = queryRunner.manager;
+      const categories = input.categoryIds;
+      delete input.categoryIds;
+
+			if (!input.index || item.index === input.index) {
+        await manager.save(Product, input);
+      }
+			//TODO create and update product with index (order)
+
+      if (categories) {
+        const categoriesOld = item.categories.map(e => {
+          if (categories.includes(e.category.id)) {
+            categories.splice(categories.indexOf(e.category.id), 1);
+            return {
+              id: e.id,
+              isArchived: false,
+              // updatedBy: user.id,
+            };
+          } else {
+            return {
+              id: e.id,
+              isArchived: true,
+              // updatedBy: user.id,
+            };
+          }
+        });
+
+        const newCategory = categories.map(e => {
+          return {
+            product: input.id,
+            category: e,
+          };
+        });
+
+        const inputCategories = categoriesOld.concat(newCategory);
+        await manager.save(ProductCategory, inputCategories);
+      }
+
+    };
+    await this.performActionInTransaction(handler);
 		return new BaseResponseDto('Updated success !', 200);
 	}
 

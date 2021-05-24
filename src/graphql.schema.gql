@@ -51,7 +51,7 @@ type ProductResponseType {
   createdBy: String
   updatedAt: DateTime
   updatedBy: String
-  isAvailable: Boolean
+  isActive: Boolean
 }
 
 type ProductListResponseType {
@@ -109,7 +109,7 @@ input ProductCreateRequestType {
   size: String
   color: String
   pictureUrl: String
-  isAvailable: Boolean
+  isActive: Boolean
   categoryIds: [String!]
 }
 
@@ -125,8 +125,8 @@ input ProductUpdateRequestType {
   size: String
   color: String
   pictureUrl: String
+  isActive: Boolean
   categoryIds: [String!]!
-  isAvailable: Boolean
 }
 
 input CategoryCreateRequestType {
