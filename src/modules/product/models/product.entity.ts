@@ -1,20 +1,36 @@
-// import { ItemCategory } from 'src/category/entity/item-category.entity';
-import { Entity, PrimaryGeneratedColumn, Column, UpdateDateColumn, CreateDateColumn, OneToMany } from 'typeorm'
+import { Entity, Column, OneToMany } from 'typeorm'
 import { BaseEntity } from "src/infrastructure/models/base.entity"
 import { ProductCategory } from 'src/modules/category/models/product-category';
 
 @Entity({ name: 'product' })
 export class Product extends BaseEntity {
-	@Column('varchar', { length: 500, unique: true })
-	name: string;
+  //TODO auto generate or self-defined in FE
+  // @Column({
+  //   name: 'product_code',
+  //   type: 'varchar',
+  //   length: 10,
+  //   unique: true
+  // }) 
+  // productCode: string;
 
-	@Column('varchar', { length: 500 })
-	type: string;
+  @Column('varchar', { length: 500, unique: true })
+  name: string;
 
-	@Column('numeric')
-	index: number;
+  @Column({
+    name: 'type',
+    type: 'varchar',
+    nullable: true,
+  })
+  type: string;
 
-	@Column({
+  @Column({
+    name: 'index',
+    type: 'numeric',
+    nullable: true,
+  })
+  index: number;
+
+  @Column({
     name: 'description',
     type: 'varchar',
     nullable: true,
@@ -26,43 +42,43 @@ export class Product extends BaseEntity {
     type: 'float',
     default: 0,
   })
-	price: number;
+  price: number;
 
-	@Column({ 
-		name: 'reference_price',
-		type: 'float',
-		default: 0
-	})
-	referencePrice
+  @Column({
+    name: 'reference_price',
+    type: 'float',
+    default: 0
+  })
+  referencePrice
 
-	@Column({
+  @Column({
     name: 'discount',
     type: 'float',
     default: 0,
   })
-	discount: number;
+  discount: number;
 
-	@Column({
+  @Column({
     name: 'size',
     type: 'varchar',
     nullable: true,
   })
-	size: string;
+  size: string;
 
-	@Column({
+  @Column({
     name: 'color',
     type: 'varchar',
     nullable: true,
   })
-	color: string;
-	
-	@Column({
+  color: string;
+
+  @Column({
     name: 'picture_url',
     type: 'varchar',
     nullable: true,
   })
   pictureUrl: string;
 
-	@OneToMany(() => ProductCategory, productCate => productCate.product)
-	productCategory: ProductCategory[];
+  @OneToMany(() => ProductCategory, productCate => productCate.product, { nullable: true, })
+  categories: ProductCategory[];
 }

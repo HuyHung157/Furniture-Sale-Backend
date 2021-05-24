@@ -6,6 +6,7 @@ import { ProductListRequestDto } from '../dto/product-list-request';
 import { ProductListResponseDto } from '../dto/product-list-response';
 import { ProductResponseDto } from '../dto/product-item-response';
 import { ProductUpdateRequestDto } from '../dto/product-update-request';
+import { UserInputError } from 'apollo-server-express';
 
 @Resolver()
 export class ProductResolver {
@@ -24,7 +25,11 @@ export class ProductResolver {
 
 	@Query(() => ProductResponseDto)
 	async getProductById(@Args('id') id: string) {
-		return this.productService.getProductById(id)
+		const result = this.productService.getProductById(id);
+		if (!result) {
+      throw new UserInputError('Item is not existed!');
+    }
+    return result;
 	}
 
 	@Mutation(() => BaseResponseDto)

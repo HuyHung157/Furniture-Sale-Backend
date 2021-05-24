@@ -7,19 +7,12 @@ type BaseResponseType {
   statusCode: Float
 }
 
-type ProductResponseType {
+type CateogoryResponseType {
   id: ID!
   name: String!
   type: String
   index: Float
   description: String
-  price: Float
-  referencePrice: Float
-  discount: Float
-  size: String
-  color: String
-  pictureUrl: String
-  categoryIds: [String!]!
   createdAt: DateTime
   createdBy: String
   updatedAt: DateTime
@@ -31,6 +24,36 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type CategoryListResponseType {
+  totalItems: Float!
+  items: [CateogoryResponseType!]
+}
+
+type CategoryListItemResponseType {
+  id: String!
+  category: CateogoryResponseType!
+}
+
+type ProductResponseType {
+  id: ID!
+  name: String
+  type: String
+  index: Float
+  description: String
+  price: Float
+  referencePrice: Float
+  discount: Float
+  size: String
+  color: String
+  pictureUrl: String
+  categories: [CategoryListItemResponseType!]
+  createdAt: DateTime
+  createdBy: String
+  updatedAt: DateTime
+  updatedBy: String
+  isActive: Boolean
+}
+
 type ProductListResponseType {
   totalItems: Float!
   items: [ProductResponseType!]
@@ -39,6 +62,9 @@ type ProductListResponseType {
 type Query {
   getProductList(input: ProductListRequestType!): ProductListResponseType!
   getProductById(id: String!): ProductResponseType!
+  getCategoryList: CategoryListResponseType!
+  getCategoryListWithPaging(input: BaseSearchInput!): CategoryListResponseType!
+  getCategoryById(id: String!): CateogoryResponseType!
 }
 
 input ProductListRequestType {
@@ -59,10 +85,17 @@ input SortingInput {
   descending: Boolean = false
 }
 
+input BaseSearchInput {
+  keyword: String
+  paging: PagingInput!
+  sorting: SortingInput
+}
+
 type Mutation {
   createProduct(input: ProductCreateRequestType!): BaseResponseType!
   updateProduct(input: ProductUpdateRequestType!): BaseResponseType!
   deleteProduct(id: String!): BaseResponseType!
+  createCategory(input: CategoryCreateRequestType!): BaseResponseType!
 }
 
 input ProductCreateRequestType {
@@ -76,6 +109,7 @@ input ProductCreateRequestType {
   size: String
   color: String
   pictureUrl: String
+  isActive: Boolean
   categoryIds: [String!]
 }
 
@@ -91,6 +125,13 @@ input ProductUpdateRequestType {
   size: String
   color: String
   pictureUrl: String
-  categoryIds: [String!]!
   isActive: Boolean
+  categoryIds: [String!]!
+}
+
+input CategoryCreateRequestType {
+  name: String!
+  type: String
+  index: Float
+  description: String
 }
