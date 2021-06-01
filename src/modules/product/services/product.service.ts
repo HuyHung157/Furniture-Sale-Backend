@@ -62,32 +62,63 @@ export class ProductService extends BaseService {
 	}
 
 	async createProduct(input: ProductCreateRequestDto): Promise<BaseResponseDto> {
-		// const item = new Product();
+		//TODO create product with index
+		let isExistedIndex = false;
+		if(input.index){
+			const query = await this.productRepository
+			.createQueryBuilder('product')
+			.where('product.index > :currentIndex', {currentIndex: input.index})
+			.orWhere('product.index = :currentIndex', {currentIndex: input.index})
+			.andWhere('product.isActive = true')
+			.andWhere('product.isArchived = false')
 
-		// const isCategoriesExist = await this.categoryService.isCategoriesExist(input.categoryIds);
-		// console.log(isCategoriesExist);
-		// if (!isCategoriesExist) {
-		//   throw new NotFoundException('Categories not found');
-		// }
+			const res = await query.getMany();
+			// if(res.length > 0){
+			// 	const data = res.map(pro => {
+			// 		pro.index = Number(pro.index) + 1;
+			// 		return pro;
+			// 	})
 
-		let createdItem = undefined;
-		const createItemHandler = async (queryRunner: QueryRunner) => {
-			const manager = queryRunner.manager;
-			createdItem = await manager.save(Product, input);
+			// 	isExistedIndex = true;
+			// 	let createdItem = undefined;
+			// 	const createItemHandler = async (queryRunner: QueryRunner) => {
+			// 		const manager = queryRunner.manager;
+			// 		if(isExistedIndex){
+			// 			data.forEach(item => {
+							
+			// 			})
+			// 		}
 
-			await this.internalCreateItemRelationInfo(
-				manager,
-				input,
-				createdItem.id,
-				// user.id,
-				//TODO create User Auth
-			);
-		};
-		await this.performActionInTransaction(createItemHandler);
-		return new BaseResponseDto('Created success !', 200);
+			// 		createdItem = await manager.save(Product, input);
+		
+			// 		await this.internalCreateItemRelationInfo(
+			// 			manager,
+			// 			input,
+			// 			createdItem.id,
+			// 			// user.id,
+			// 			//TODO create User Auth
+			// 		);
+			// 	};
+			// 	await this.performActionInTransaction(createItemHandler);
+			// 	return new BaseResponseDto('Created success !', 200);
+			// }
+			return new BaseResponseDto('Created success !', 200);
+		}
 	}
 
 	async updateProduct(input): Promise<BaseResponseDto> {
+		const a = input;
+		if(input.index){
+			const query = await this.productRepository
+			.createQueryBuilder('product')
+			.where('product.index >= :currentIndex', {currentIndex: input.index})
+			.andWhere('product.isActive = true')
+			.andWhere('product.isArchived = false')
+
+			const product = query.getMany();
+			console.log(product);
+		}
+
 		const item = await this.getProductById(input.id)
 		if (!item.id) {
       return new UserInputError('Item not found');
@@ -138,7 +169,7 @@ export class ProductService extends BaseService {
 	}
 
 	async deleteProduct(id: string) {
-		return this.performActionInTransaction(async (queryRunner) => {
+		const handler = async (queryRunner) => {
 			const manager = queryRunner.manager;
 			const archivedPartialEntity = {
 				isActive: false,
@@ -146,7 +177,8 @@ export class ProductService extends BaseService {
 			}
 			await manager.update(Product, { id }, archivedPartialEntity);
 
-		})
+		};
+		return this.performActionInTransaction(handler)
 	}
 
 	private async internalCreateItemRelationInfo(

@@ -4,6 +4,7 @@ import { BaseSearchRequestDto } from 'src/infrastructure/models/search/base-sear
 import { CategoryCreateRequestDto } from '../dto/category-create-request'
 import { CategoryResponseDto } from '../dto/category-item-response';
 import { CategoryListResponseDto } from '../dto/category-list-response';
+import { CategoryUpdateRequestDto } from '../dto/category-update-request';
 import { CategoryService } from '../services/category.service'
 
 @Resolver()
@@ -29,8 +30,20 @@ export class CategoryResolver {
   }
 
 	@Mutation(() => BaseResponseDto)
-	async createCategory(@Args('input') input: CategoryCreateRequestDto) {
+	async createCategory(@Args('input') input: CategoryCreateRequestDto): Promise<BaseResponseDto>   {
 		await this.categoryService.createCategory(input)
-		return new BaseResponseDto('succsess', 200);
+		return new BaseResponseDto('Create Success', 200);
+	}
+
+  @Mutation(() => BaseResponseDto)
+	async updateCategory(@Args('input') input: CategoryUpdateRequestDto): Promise<BaseResponseDto>   {
+		await this.categoryService.updateCategory(input)
+		return new BaseResponseDto('Update Success', 200);
+	}
+
+  @Mutation(() => BaseResponseDto)
+	async deleteCategory(@Args('id') id: string): Promise<BaseResponseDto>  {
+		await this.categoryService.deleteCategory(id)
+		return new BaseResponseDto('Delete success !', 200);
 	}
 }

@@ -16,6 +16,12 @@ export class CategoryResponseDto extends BaseDto {
   description?: string;
 
   @Field({ nullable: true })
+  pictureUrl?: string;
+
+  @Field({ nullable: true })
+  iconFa?: string;
+
+  @Field({ nullable: true })
   createdAt?: Date;
 
   @Field({ nullable: true })
@@ -26,4 +32,7 @@ export class CategoryResponseDto extends BaseDto {
 
   @Field({ nullable: true })
   updatedBy?: string;
+
+  @Field({ nullable: true })
+  isActive?: boolean;
 }

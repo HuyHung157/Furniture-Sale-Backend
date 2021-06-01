@@ -13,10 +13,13 @@ type CateogoryResponseType {
   type: String
   index: Float
   description: String
+  pictureUrl: String
+  iconFa: String
   createdAt: DateTime
   createdBy: String
   updatedAt: DateTime
   updatedBy: String
+  isActive: Boolean
 }
 
 """
@@ -29,7 +32,7 @@ type CategoryListResponseType {
   items: [CateogoryResponseType!]
 }
 
-type CategoryListItemResponseType {
+type CategoryListProductResponseType {
   id: String!
   category: CateogoryResponseType!
 }
@@ -46,7 +49,7 @@ type ProductResponseType {
   size: String
   color: String
   pictureUrl: String
-  categories: [CategoryListItemResponseType!]
+  categories: [CategoryListProductResponseType!]
   createdAt: DateTime
   createdBy: String
   updatedAt: DateTime
@@ -96,6 +99,8 @@ type Mutation {
   updateProduct(input: ProductUpdateRequestType!): BaseResponseType!
   deleteProduct(id: String!): BaseResponseType!
   createCategory(input: CategoryCreateRequestType!): BaseResponseType!
+  updateCategory(input: CategoryUpdateRequestType!): BaseResponseType!
+  deleteCategory(id: String!): BaseResponseType!
 }
 
 input ProductCreateRequestType {
@@ -132,6 +137,20 @@ input ProductUpdateRequestType {
 input CategoryCreateRequestType {
   name: String!
   type: String
-  index: Float
+  index: Float!
   description: String
+  pictureUrl: String
+  iconFa: String
+  isActive: Boolean
+}
+
+input CategoryUpdateRequestType {
+  id: String!
+  name: String!
+  type: String
+  index: Float!
+  description: String
+  pictureUrl: String
+  iconFa: String
+  isActive: Boolean
 }

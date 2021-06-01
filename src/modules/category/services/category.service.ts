@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { UserInputError } from "apollo-server-errors";
 import { BaseResponseDto } from "src/infrastructure/models/base-response.dto";
 import { BaseSearchRequestDto } from "src/infrastructure/models/search/base-search-request";
 import { BaseService } from "src/infrastructure/services/base.service";
@@ -30,6 +31,7 @@ export class CategoryService extends BaseService {
 
   public async createCategory(input) {
     if (input.index) {
+      //Get all category larger or square new cate
       const query = await this.categoryRepository
         .createQueryBuilder('category')
         .where('category.index > :index', { index: input.index })
@@ -60,12 +62,20 @@ export class CategoryService extends BaseService {
       .createQueryBuilder('category')
       .where('category.isActive = true')
       .andWhere('category.isArchived = false')
-      .orderBy('category.index', 'ASC');
+      .orderBy('category.createdAt', 'ASC');
 
     if (input && input.paging) {
       query
         .take(input.paging.pageSize)
         .skip(input.paging.pageSize * Math.max(0, input.paging.pageIndex - 1));
+    }
+
+    if (input?.sorting) {
+      query.
+        addOrderBy(
+          `category.${input.sorting.sortFieldName}`,
+          this.getOrder(input.sorting.descending)
+        )
     }
 
     const [items, count] = await query.getManyAndCount();
@@ -85,16 +95,70 @@ export class CategoryService extends BaseService {
     return result;
   }
 
-  public async updateIndexCategories(input) {
-    const query = await this.categoryRepository.save(input.categories);
+
+  public async deleteCategory(id: string) {
+    const query = await this.categoryRepository.update(id, {
+      isArchived: true,
+      isActive: false,
+    });
     return query;
   }
 
-  public async deleteCategory(id) {
-    const query = await this.categoryRepository.update(id, {
-      isArchived: true,
-    });
-    return query;
+  public async updateCategory(input) {
+    const query = this.categoryRepository.createQueryBuilder('category')
+    const category = await query
+      .where('category.id = :id', { id: input.id })
+      .andWhere('category.isActive = true')
+      .andWhere('category.isArchived = false')
+      .getOne();
+
+    if (!category.id) {
+      return new UserInputError('Category not found');
+    }
+
+    if (!input.index || input.index === category.index) {
+      const query = await this.categoryRepository.save(input);
+      return query;
+    }
+
+    let res;
+    let isIncrease = true;
+    if (category.index < input.index) {
+      // index old lower than index new => Decrease the elements between them 
+      isIncrease = false;
+      res = await query
+        .where('category.index <= :indexNew', { indexNew: input.index })
+        .andWhere('category.index > :indexOld', { indexOld: category.index })
+        .andWhere('category.isActive = true')
+        .andWhere('category.isArchived = false')
+        .getMany();
+
+    } else {
+      // index old lager than index new => Increase the elements between them 
+      res = await query
+        .where('category.index >= :indexNew', { indexNew: input.index })
+        .andWhere('category.index < :indexOld', { indexOld: category.index })
+        .andWhere('category.isActive = true')
+        .andWhere('category.isArchived = false')
+        .getMany();
+    }
+
+    if (res.length > 0) {
+      const data = res.map(element => {
+        element.index = isIncrease
+          ? Number(element.index) + 1
+          : Number(element.index) - 1;
+          return element;
+      });
+
+      data.push(input);
+      const query = await this.categoryRepository.save(data);
+      return query;
+    }else{
+      const query = await this.categoryRepository.save(input);
+      return query;
+    }
+
   }
 
   private getOrder(desc: boolean) {

@@ -27,6 +27,7 @@ export class Product extends BaseEntity {
     name: 'index',
     type: 'numeric',
     nullable: true,
+    unique: true
   })
   index: number;
 

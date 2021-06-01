@@ -1,7 +1,12 @@
-import { InputType, Field } from "@nestjs/graphql";
+import { Field, InputType } from "@nestjs/graphql";
+import { IsUUID } from "class-validator";
 
-@InputType('CategoryCreateRequestType')
-export class CategoryCreateRequestDto {
+@InputType('CategoryUpdateRequestType')
+export class CategoryUpdateRequestDto{
+  @Field()
+  @IsUUID()
+  id: string;
+
   @Field()
   name: string;
 
