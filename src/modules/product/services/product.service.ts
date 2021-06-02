@@ -62,48 +62,21 @@ export class ProductService extends BaseService {
 	}
 
 	async createProduct(input: ProductCreateRequestDto): Promise<BaseResponseDto> {
-		//TODO create product with index
-		let isExistedIndex = false;
-		if(input.index){
-			const query = await this.productRepository
-			.createQueryBuilder('product')
-			.where('product.index > :currentIndex', {currentIndex: input.index})
-			.orWhere('product.index = :currentIndex', {currentIndex: input.index})
-			.andWhere('product.isActive = true')
-			.andWhere('product.isArchived = false')
+		let createdItem = undefined;
+		const createItemHandler = async (queryRunner: QueryRunner) => {
+			const manager = queryRunner.manager;
+			createdItem = await manager.save(Product, input);
 
-			const res = await query.getMany();
-			// if(res.length > 0){
-			// 	const data = res.map(pro => {
-			// 		pro.index = Number(pro.index) + 1;
-			// 		return pro;
-			// 	})
-
-			// 	isExistedIndex = true;
-			// 	let createdItem = undefined;
-			// 	const createItemHandler = async (queryRunner: QueryRunner) => {
-			// 		const manager = queryRunner.manager;
-			// 		if(isExistedIndex){
-			// 			data.forEach(item => {
-							
-			// 			})
-			// 		}
-
-			// 		createdItem = await manager.save(Product, input);
-		
-			// 		await this.internalCreateItemRelationInfo(
-			// 			manager,
-			// 			input,
-			// 			createdItem.id,
-			// 			// user.id,
-			// 			//TODO create User Auth
-			// 		);
-			// 	};
-			// 	await this.performActionInTransaction(createItemHandler);
-			// 	return new BaseResponseDto('Created success !', 200);
-			// }
-			return new BaseResponseDto('Created success !', 200);
-		}
+			await this.internalCreateItemRelationInfo(
+				manager,
+				input,
+				createdItem.id,
+				// user.id,
+				//TODO create User Auth
+			);
+		};
+		await this.performActionInTransaction(createItemHandler);
+		return new BaseResponseDto('Created success !', 200);
 	}
 
 	async updateProduct(input): Promise<BaseResponseDto> {

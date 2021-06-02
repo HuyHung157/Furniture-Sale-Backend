@@ -62,7 +62,7 @@ export class CategoryService extends BaseService {
       .createQueryBuilder('category')
       .where('category.isActive = true')
       .andWhere('category.isArchived = false')
-      .orderBy('category.createdAt', 'ASC');
+      .orderBy('category.index', 'ASC');
 
     if (input && input.paging) {
       query
