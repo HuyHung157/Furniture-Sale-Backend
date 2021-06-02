@@ -7,11 +7,11 @@ export class Category extends BaseEntity {
   @Column('varchar', { length: 500, unique: true })
   name: string;
 
-  @Column('varchar', { length: 500 })
+  @Column('varchar', { length: 500, nullable: true })
   type?: string;
 
-  @Column('numeric')
-  index?: number;
+  @Column('numeric', { unique: true })
+  index: number;
 
   @Column({
     name: 'description',
@@ -19,6 +19,20 @@ export class Category extends BaseEntity {
     nullable: true,
   })
   description?: string;
+
+  @Column({
+    name: 'picture_url',
+    type: 'varchar',
+    nullable: true,
+  })
+  pictureUrl: string;
+
+  @Column({
+    name: 'icon_fa',
+    type: 'varchar',
+    nullable: true,
+  })
+  iconFa: string;
 
   @OneToMany(() => ProductCategory, productCate => productCate.category, { nullable: true, })
   products: ProductCategory[];

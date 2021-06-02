@@ -62,14 +62,6 @@ export class ProductService extends BaseService {
 	}
 
 	async createProduct(input: ProductCreateRequestDto): Promise<BaseResponseDto> {
-		// const item = new Product();
-
-		// const isCategoriesExist = await this.categoryService.isCategoriesExist(input.categoryIds);
-		// console.log(isCategoriesExist);
-		// if (!isCategoriesExist) {
-		//   throw new NotFoundException('Categories not found');
-		// }
-
 		let createdItem = undefined;
 		const createItemHandler = async (queryRunner: QueryRunner) => {
 			const manager = queryRunner.manager;
@@ -88,6 +80,18 @@ export class ProductService extends BaseService {
 	}
 
 	async updateProduct(input): Promise<BaseResponseDto> {
+		const a = input;
+		if(input.index){
+			const query = await this.productRepository
+			.createQueryBuilder('product')
+			.where('product.index >= :currentIndex', {currentIndex: input.index})
+			.andWhere('product.isActive = true')
+			.andWhere('product.isArchived = false')
+
+			const product = query.getMany();
+			console.log(product);
+		}
+
 		const item = await this.getProductById(input.id)
 		if (!item.id) {
       return new UserInputError('Item not found');
@@ -138,7 +142,7 @@ export class ProductService extends BaseService {
 	}
 
 	async deleteProduct(id: string) {
-		return this.performActionInTransaction(async (queryRunner) => {
+		const handler = async (queryRunner) => {
 			const manager = queryRunner.manager;
 			const archivedPartialEntity = {
 				isActive: false,
@@ -146,7 +150,8 @@ export class ProductService extends BaseService {
 			}
 			await manager.update(Product, { id }, archivedPartialEntity);
 
-		})
+		};
+		return this.performActionInTransaction(handler)
 	}
 
 	private async internalCreateItemRelationInfo(

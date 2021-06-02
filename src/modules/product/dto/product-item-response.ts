@@ -1,6 +1,6 @@
 import { ObjectType, Field } from "@nestjs/graphql";
 import { BaseDto } from "src/infrastructure/models/base.dto";
-import { CategoryListItemResponseDto } from "./product-list-categorys-response.dto";
+import { CategoryListProductResponseDto } from "../../category/dto/category-list-product-response.dto";
 
 @ObjectType('ProductResponseType')
 export class ProductResponseDto extends BaseDto {
@@ -34,8 +34,8 @@ export class ProductResponseDto extends BaseDto {
   @Field({ nullable: true })
   pictureUrl?: string;
 
-  @Field(() => [CategoryListItemResponseDto], { nullable: true })
-  categories?:  CategoryListItemResponseDto[];
+  @Field(() => [CategoryListProductResponseDto], { nullable: true })
+  categories?:  CategoryListProductResponseDto[];
 
   @Field({ nullable: true })
   createdAt?: Date;
