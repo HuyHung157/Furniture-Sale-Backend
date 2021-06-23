@@ -20,6 +20,8 @@ type CateogoryResponseType {
   updatedAt: DateTime
   updatedBy: String
   isActive: Boolean
+  indexHome: Float
+  isShowHome: Boolean
 }
 
 """
@@ -142,6 +144,8 @@ input CategoryCreateRequestType {
   pictureUrl: String
   iconFa: String
   isActive: Boolean
+  indexHome: Float
+  isShowHome: Boolean
 }
 
 input CategoryUpdateRequestType {
@@ -153,4 +157,6 @@ input CategoryUpdateRequestType {
   pictureUrl: String
   iconFa: String
   isActive: Boolean
+  indexHome: Float
+  isShowHome: Boolean
 }

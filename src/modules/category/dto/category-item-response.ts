@@ -35,4 +35,10 @@ export class CategoryResponseDto extends BaseDto {
 
   @Field({ nullable: true })
   isActive?: boolean;
+
+  @Field({ nullable: true })
+  indexHome?: number;
+
+  @Field({ nullable: true })
+  isShowHome?: boolean;
 }

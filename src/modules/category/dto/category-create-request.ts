@@ -22,4 +22,10 @@ export class CategoryCreateRequestDto {
 
   @Field({ nullable: true })
   isActive?: boolean;
+
+  @Field({ nullable: true })
+  indexHome?: number;
+
+  @Field({ nullable: true })
+  isShowHome?: boolean;
 }
