@@ -6,6 +6,6 @@ export class CategoryListProductResponseDto {
   @Field()
   id?: string;
 
-  @Field(() => CategoryResponseDto)
+  @Field(() => CategoryResponseDto, { nullable: true})
   category: CategoryResponseDto;
 }

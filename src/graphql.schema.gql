@@ -7,7 +7,7 @@ type BaseResponseType {
   statusCode: Float
 }
 
-type CateogoryResponseType {
+type CategoryResponseType {
   id: ID!
   name: String!
   type: String
@@ -31,12 +31,54 @@ scalar DateTime
 
 type CategoryListResponseType {
   totalItems: Float!
-  items: [CateogoryResponseType!]
+  items: [CategoryResponseType!]
+}
+
+type ProductHomeResponseType {
+  id: ID!
+  name: String
+  type: String
+  index: Float
+  description: String
+  price: Float
+  referencePrice: Float
+  discount: Float
+  size: String
+  color: String
+  pictureUrl: String
+  createdAt: DateTime
+  createdBy: String
+  updatedAt: DateTime
+  updatedBy: String
+  isActive: Boolean
+}
+
+type CategoryProductResponseType {
+  id: ID!
+  name: String
+  type: String
+  index: Float
+  description: String
+  pictureUrl: String
+  iconFa: String
+  createdAt: DateTime
+  createdBy: String
+  updatedAt: DateTime
+  updatedBy: String
+  isActive: Boolean
+  indexHome: Float
+  isShowHome: Boolean
+  products: [ProductHomeResponseType!]
+}
+
+type CategoryProductListResponseType {
+  totalItems: Float!
+  items: [CategoryProductResponseType!]
 }
 
 type CategoryListProductResponseType {
   id: String!
-  category: CateogoryResponseType!
+  category: CategoryResponseType
 }
 
 type ProductResponseType {
@@ -66,10 +108,12 @@ type ProductListResponseType {
 
 type Query {
   getProductList(input: ProductListRequestType!): ProductListResponseType!
+  getListItemByCategory(input: ProductListByCategoryType!): ProductListResponseType!
   getProductById(id: String!): ProductResponseType!
-  getCategoryList: CategoryListResponseType!
-  getCategoryListWithPaging(input: BaseSearchInput!): CategoryListResponseType!
-  getCategoryById(id: String!): CateogoryResponseType!
+  getListCategory: CategoryListResponseType!
+  getListCategoryWithPaging(input: BaseSearchInput!): CategoryListResponseType!
+  getListCategoryShowHome: CategoryProductListResponseType!
+  getCategoryById(id: String!): CategoryResponseType!
 }
 
 input ProductListRequestType {
@@ -88,6 +132,11 @@ input PagingInput {
 input SortingInput {
   sortFieldName: String!
   descending: Boolean = false
+}
+
+input ProductListByCategoryType {
+  id: String!
+  paging: PagingInput!
 }
 
 input BaseSearchInput {

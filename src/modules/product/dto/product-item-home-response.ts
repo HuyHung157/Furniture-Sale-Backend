@@ -1,10 +1,10 @@
 import { ObjectType, Field } from "@nestjs/graphql";
 import { BaseDto } from "src/infrastructure/models/base.dto";
 
-@ObjectType('CategoryResponseType')
-export class CategoryResponseDto extends BaseDto {
-  @Field()
-  name: string;
+@ObjectType('ProductHomeResponseType')
+export class ProductHomeResponseDto extends BaseDto {
+  @Field({ nullable: true })
+  name?: string;
 
   @Field({ nullable: true })
   type?: string;
@@ -16,10 +16,22 @@ export class CategoryResponseDto extends BaseDto {
   description?: string;
 
   @Field({ nullable: true })
-  pictureUrl?: string;
+  price?: number;
 
   @Field({ nullable: true })
-  iconFa?: string;
+  referencePrice?: number;
+
+  @Field({ nullable: true })
+  discount?: number;
+
+  @Field({ nullable: true })
+  size?: string;
+
+  @Field({ nullable: true })
+  color?: string;
+
+  @Field({ nullable: true })
+  pictureUrl?: string;
 
   @Field({ nullable: true })
   createdAt?: Date;
@@ -35,10 +47,4 @@ export class CategoryResponseDto extends BaseDto {
 
   @Field({ nullable: true })
   isActive?: boolean;
-
-  @Field({ nullable: true })
-  indexHome?: number;
-
-  @Field({ nullable: true })
-  isShowHome?: boolean;
 }

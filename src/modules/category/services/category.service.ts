@@ -77,6 +77,31 @@ export class CategoryService extends BaseService {
     };
   }
 
+
+  public async getListCategoryShowHome() {
+    const queryCategoryHome = this.categoryRepository
+    .createQueryBuilder('category')
+    .where('category.isShowHome = true')
+    .andWhere('category.indexHome >= 0')
+    .andWhere('category.isActive = true')
+    .andWhere('category.isArchived = false')
+    .orderBy('category.indexHome', 'ASC')
+    .leftJoinAndSelect(
+      'category.products',
+      'products',
+      'products.isArchived = false AND products.isActive = true',
+    )
+    .leftJoinAndSelect( 'products.product', 'product')
+    .addOrderBy('product.index', 'ASC')
+    .addOrderBy('product.createdAt', 'ASC');
+    
+    const [items, count] = await queryCategoryHome.getManyAndCount();
+    return {
+      totalItems: count,
+      items,
+    };
+  }
+
   public async getCategoryById(id: string) {
     const query = this.categoryRepository
       .createQueryBuilder('category')

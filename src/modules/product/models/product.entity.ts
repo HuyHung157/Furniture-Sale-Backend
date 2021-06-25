@@ -1,6 +1,6 @@
 import { Entity, Column, OneToMany } from 'typeorm'
 import { BaseEntity } from "src/infrastructure/models/base.entity"
-import { ProductCategory } from 'src/modules/category/models/product-category';
+import { ProductCategory } from '@modules/category/models/product-category.entity';
 
 @Entity({ name: 'product' })
 export class Product extends BaseEntity {

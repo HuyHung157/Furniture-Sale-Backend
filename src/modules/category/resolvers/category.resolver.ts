@@ -4,6 +4,7 @@ import { BaseSearchRequestDto } from 'src/infrastructure/models/search/base-sear
 import { CategoryCreateRequestDto } from '../dto/category-create-request'
 import { CategoryResponseDto } from '../dto/category-item-response';
 import { CategoryListResponseDto } from '../dto/category-list-response';
+import { CategoryProductListResponseDto } from '../dto/category-product-home-response';
 import { CategoryUpdateRequestDto } from '../dto/category-update-request';
 import { CategoryService } from '../services/category.service'
 
@@ -12,22 +13,28 @@ export class CategoryResolver {
 	constructor(private readonly categoryService: CategoryService) { }
 
 	@Query(() => CategoryListResponseDto)
-  async getCategoryList(): Promise<CategoryListResponseDto> {
+  async getListCategory(): Promise<CategoryListResponseDto> {
     return await this.categoryService.getListCategory();
   }
 
   @Query(() => CategoryListResponseDto)
   // @UseGuards(GqlAuthGuard, UserOwnerAdminGuard)
-  async getCategoryListWithPaging(
+  async getListCategoryWithPaging(
     @Args('input') input: BaseSearchRequestDto,
   ): Promise<CategoryListResponseDto> {
     return await this.categoryService.getListCategory(input);
+  }
+
+  @Query(() => CategoryProductListResponseDto)
+  async getListCategoryShowHome(): Promise<CategoryProductListResponseDto> {
+    return await this.categoryService.getListCategoryShowHome();
   }
 
   @Query(() => CategoryResponseDto)
   async getCategoryById(@Args('id') id: string): Promise<CategoryResponseDto> {
     return await this.categoryService.getCategoryById(id);
   }
+
 
 	@Mutation(() => BaseResponseDto)
 	async createCategory(@Args('input') input: CategoryCreateRequestDto): Promise<BaseResponseDto>   {
