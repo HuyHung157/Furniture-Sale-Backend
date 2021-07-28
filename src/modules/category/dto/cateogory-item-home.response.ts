@@ -1,6 +1,6 @@
-import { ProductHomeResponseDto } from "@modules/product/dto/product-item-home-response";
 import { ObjectType, Field } from "@nestjs/graphql";
 import { BaseDto } from "src/infrastructure/models/base.dto";
+import { ProductCategoryResponseDto } from "./product-home-response";
 
 @ObjectType('CategoryProductResponseType')
 export class CategoryProductResponseDto extends BaseDto {
@@ -43,6 +43,6 @@ export class CategoryProductResponseDto extends BaseDto {
   @Field({ nullable: true })
   isShowHome?: boolean;
 
-  @Field(() => [ProductHomeResponseDto], { nullable: true })
-  products?:  ProductHomeResponseDto[];
+  @Field(() => [ProductCategoryResponseDto], { nullable: true })
+  products?:  ProductCategoryResponseDto[];
 }

@@ -27,7 +27,7 @@ export class ProductService extends BaseService {
       .createQueryBuilder('product')
       .where('product.isActive = true')
       .andWhere('product.isArchived = false');
-
+    
     if (input.paging) {
       query.take(input.paging.pageSize)
         .skip(input.paging.pageSize * Math.max(0, input.paging.pageIndex - 1));
@@ -42,6 +42,8 @@ export class ProductService extends BaseService {
         `product.${input.sorting.sortFieldName}`,
         this.getOrder(input.sorting.descending)
       );
+    }else{
+      query.orderBy('product.index', 'ASC')
     }
 
     const [items, count] = await query.getManyAndCount();

@@ -12,6 +12,9 @@ export class CommonConstants {
   // public static readonly VALID_STRING = /^[a-zA-Z0-9_u00C0-\u017Fx]+( [a-zA-Z0-9_u00C0-\u017Fx]+)*$/; // /^[a-zA-Z0-9\u00C0-\u017Fx]+$/g;
   public static readonly VALID_STRING = /[\u00C0-\u1FFF\u2C00-\uD7FF\w]/;
 
+  // https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address
+  public static readonly EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+
   // GQL
   public static readonly GQL_TYPE_PATHS = 'GQL_TYPE_PATHS';
   public static readonly GQL_SCHEMA_PATH = 'GQL_SCHEMA_PATH';
@@ -105,46 +108,8 @@ export class CommonConstants {
   public static readonly UNDERSCORE_ESCAPE = '\\_';
   public static readonly PERCENT_SIGN = '%';
 
-  // FIREBASE ADMIN
-  public static readonly FIREBASE_ADMIN_TYPE = 'FIREBASE_ADMIN_TYPE'
-  public static readonly FIREBASE_ADMIN_PROJECT_ID = 'FIREBASE_ADMIN_PROJECT_ID'
-  public static readonly FIREBASE_ADMIN_PRIVATE_KEY_ID = 'FIREBASE_ADMIN_PRIVATE_KEY_ID'
-  public static readonly FIREBASE_ADMIN_PRIVATE_KEY = 'FIREBASE_ADMIN_PRIVATE_KEY'
-  public static readonly FIREBASE_ADMIN_CLIENT_EMAIL = 'FIREBASE_ADMIN_CLIENT_EMAIL'
-  public static readonly FIREBASE_ADMIN_CLIENT_ID = 'FIREBASE_ADMIN_CLIENT_ID'
-  public static readonly FIREBASE_ADMIN_AUTH_URI = 'FIREBASE_ADMIN_AUTH_URI'
-  public static readonly FIREBASE_ADMIN_TOKEN_URI = 'FIREBASE_ADMIN_TOKEN_URI'
-  public static readonly FIREBASE_ADMIN_AUTH_PROVIDER_X509_CERT_URL = 'FIREBASE_ADMIN_AUTH_PROVIDER_X509_CERT_URL'
-  public static readonly FIREBASE_ADMIN_CLIENT_X509_CERT_URL = 'FIREBASE_ADMIN_CLIENT_X509_CERT_URL'
-
-  // FIREBASE
-  public static readonly FIREBASE_API_KEY = 'FIREBASE_API_KEY';
-  public static readonly FIREBASE_AUTH_DOMAIN = 'FIREBASE_AUTH_DOMAIN';
-  public static readonly FIREBASE_DATABASE_URL = 'FIREBASE_DATABASE_URL';
-  public static readonly FIREBASE_PROJECT_ID = 'FIREBASE_PROJECT_ID';
-  public static readonly FIREBASE_STORAGE_BUCKET = 'FIREBASE_STORAGE_BUCKET';
-  public static readonly FIREBASE_MESSAGING_SENDER_ID = 'FIREBASE_MESSAGING_SENDER_ID';
-  public static readonly FIREBASE_APP_ID = 'FIREBASE_APP_ID';
-  public static readonly FIREBASE_MEASUREMENT_ID = 'FIREBASE_MEASUREMENT_ID';
-
   // UUID
   public static readonly UUID_V5_NAMESPACE = 'UUID_V5_NAMESPACE';
-
-  //STRIPE
-  public static readonly STRIPE_SECRET_KEY = 'STRIPE_SECRET_KEY';
-  public static readonly STRIPE_PUBLIC_KEY = 'STRIPE_PUBLIC_KEY';
-
-  //STUART
-  public static readonly STUART_API_CLIENT_ID = 'STUART_API_CLIENT_ID';
-  public static readonly STUART_API_CLIENT_SECRET = 'STUART_API_CLIENT_SECRET';
-  public static readonly STUART_API_VALIDATE_ADDRESS_URL = '/v2/addresses/validate';
-  public static readonly STUART_API_CREATE_JOB_URL = '/v2/jobs';
-  public static readonly STUART_API_CALCULATE_JOB_PRICE_URL = '/v2/jobs/pricing';
-
-  public static readonly DELIVERY_SERVICE = 'DELIVERY_SERVICE';
-  public static readonly DELIVERY_FREE_THRESHOLD_PARIS = 'DELIVERY_FREE_THRESHOLD_PARIS';
-  public static readonly DELIVERY_FREE_THRESHOLD_OUTSIDE_PARIS = 'DELIVERY_FREE_THRESHOLD_OUTSIDE_PARIS';
-  public static readonly DELIVERY_SERVICE_STUART = 'stuart';
 
   // WINSTON
   public static readonly WINSTON_LOG_FILE_NAME = 'WINSTON_LOG_FILE_NAME';

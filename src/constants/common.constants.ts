@@ -12,6 +12,9 @@ export class CommonConstants {
   // public static readonly VALID_STRING = /^[a-zA-Z0-9_u00C0-\u017Fx]+( [a-zA-Z0-9_u00C0-\u017Fx]+)*$/; // /^[a-zA-Z0-9\u00C0-\u017Fx]+$/g;
   public static readonly VALID_STRING = /[\u00C0-\u1FFF\u2C00-\uD7FF\w]/;
 
+  // https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address
+  public static readonly EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+
   // GQL
   public static readonly GQL_TYPE_PATHS = 'GQL_TYPE_PATHS';
   public static readonly GQL_SCHEMA_PATH = 'GQL_SCHEMA_PATH';

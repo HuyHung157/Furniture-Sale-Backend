@@ -1,14 +1,20 @@
+import { Account } from '@modules/auth/models/account.entity';
+import { UserRole } from '@modules/user/models/user-role.entity';
+import { User } from '@modules/user/models/user.entity';
 import { Module } from '@nestjs/common';
-import { PgModule as FaviePgModule } from 'src/infrastructure/database/pg.module';
+import { PgModule as InfraPgModule } from 'src/infrastructure/database/pg.module';
 import { Category } from '../category/models/category.entity';
 import { ProductCategory } from '../category/models/product-category.entity';
 import { Product } from '../product/models/product.entity';
 
-const registeredPgModule = FaviePgModule.register({
+const registeredPgModule = InfraPgModule.register({
   entities: [
     Product,
     Category,
-    ProductCategory
+    ProductCategory,
+    User,
+    UserRole,
+    Account,
   ],
 });
 

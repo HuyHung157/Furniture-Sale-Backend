@@ -53,6 +53,11 @@ type ProductHomeResponseType {
   isActive: Boolean
 }
 
+type ProductCategoryResponseType {
+  id: String!
+  product: ProductHomeResponseType!
+}
+
 type CategoryProductResponseType {
   id: ID!
   name: String
@@ -68,7 +73,7 @@ type CategoryProductResponseType {
   isActive: Boolean
   indexHome: Float
   isShowHome: Boolean
-  products: [ProductHomeResponseType!]
+  products: [ProductCategoryResponseType!]
 }
 
 type CategoryProductListResponseType {
@@ -106,6 +111,28 @@ type ProductListResponseType {
   items: [ProductResponseType!]
 }
 
+type UserResponseType {
+  id: ID!
+  firstName: String
+  lastName: String
+  country: String
+  phoneNumberPrefix: String
+  phoneNumber: String
+  profileUrl: String
+  birthday: DateTime
+  gender: String
+}
+
+type UserListResponseType {
+  totalItems: Float!
+  items: [UserResponseType!]
+}
+
+type TokenType {
+  token: String!
+  refreshToken: String!
+}
+
 type Query {
   getProductList(input: ProductListRequestType!): ProductListResponseType!
   getListItemByCategory(input: ProductListByCategoryType!): ProductListResponseType!
@@ -114,6 +141,8 @@ type Query {
   getListCategoryWithPaging(input: BaseSearchInput!): CategoryListResponseType!
   getListCategoryShowHome: CategoryProductListResponseType!
   getCategoryById(id: String!): CategoryResponseType!
+  getUserList(input: UserListRequestType!): UserListResponseType!
+  getUserAdminList(input: UserListRequestType!): UserListResponseType!
 }
 
 input ProductListRequestType {
@@ -145,6 +174,12 @@ input BaseSearchInput {
   sorting: SortingInput
 }
 
+input UserListRequestType {
+  keyword: String
+  paging: PagingInput!
+  sorting: SortingInput
+}
+
 type Mutation {
   createProduct(input: ProductCreateRequestType!): BaseResponseType!
   updateProduct(input: ProductUpdateRequestType!): BaseResponseType!
@@ -152,6 +187,9 @@ type Mutation {
   createCategory(input: CategoryCreateRequestType!): BaseResponseType!
   updateCategory(input: CategoryUpdateRequestType!): BaseResponseType!
   deleteCategory(id: String!): BaseResponseType!
+  signUp(input: SignUpRequestType!): BaseResponseType!
+  signIn(input: SignInRequestType!): TokenType!
+  createUserAdmin(input: UserAdminCreateRequestType!): BaseResponseType!
 }
 
 input ProductCreateRequestType {
@@ -208,4 +246,47 @@ input CategoryUpdateRequestType {
   isActive: Boolean
   indexHome: Float
   isShowHome: Boolean
+}
+
+input SignUpRequestType {
+  userName: String!
+  password: String!
+  email: String!
+  firstName: String!
+  lastName: String!
+  birthday: DateTime!
+  gender: Gender!
+  phoneNumber: String!
+  phoneNumberPrefix: String!
+  address: String!
+  ward: String!
+  district: String!
+  city: String!
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+input SignInRequestType {
+  email: String!
+  password: String!
+}
+
+input UserAdminCreateRequestType {
+  password: String!
+  email: String!
+  firstName: String!
+  lastName: String!
+  birthday: DateTime
+  gender: Gender!
+  profileUrl: String
+  phoneNumber: String
+  phoneNumberPrefix: String!
+  address: String
+  ward: String
+  district: String
+  city: String
 }

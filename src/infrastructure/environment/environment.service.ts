@@ -71,8 +71,4 @@ export class EnvironmentService {
       // ssl: this.isProductionMode(),
     };
   }
-
-  public getStripeSecretKey() {
-    return this.getKey(CommonConstants.STRIPE_SECRET_KEY);
-  }
 }

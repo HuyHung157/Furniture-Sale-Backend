@@ -8,14 +8,20 @@ import { WinstonModule } from '@infrastructure/modules/winston/winston.module';
 import { LoggingInterceptor } from '@infrastructure/interceptors/logging.interceptor';
 import { ErrorInterceptor } from '@infrastructure/interceptors/error.interceptor';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { AuthModule } from '@modules/auth/auth.module';
+import { UserModule } from '@modules/user/user.module';
+import { RedisModule } from './redis/redis.module';
 
 @Module({
   imports: [
     GraphqlModule,
+    RedisModule,
     DatabaseModule,
     WinstonModule,
     ProductModule,
-    CategoryModule
+    CategoryModule,
+    UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [
