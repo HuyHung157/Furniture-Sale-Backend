@@ -11,6 +11,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { AuthModule } from '@modules/auth/auth.module';
 import { UserModule } from '@modules/user/user.module';
 import { RedisModule } from './redis/redis.module';
+import { DataVnModule } from '@modules/data-vn/data-vn.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { RedisModule } from './redis/redis.module';
     CategoryModule,
     UserModule,
     AuthModule,
+    DataVnModule
   ],
   controllers: [AppController],
   providers: [

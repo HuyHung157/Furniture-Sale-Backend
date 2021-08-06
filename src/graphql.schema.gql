@@ -133,6 +133,51 @@ type TokenType {
   refreshToken: String!
 }
 
+type CityResponseType {
+  name: String
+  slug: String
+  type: String
+  nameWithType: String
+  code: String
+}
+
+type CityListResponseType {
+  totalItems: Float!
+  items: [CityResponseType!]
+}
+
+type DistrictResponseType {
+  name: String
+  slug: String
+  type: String
+  nameWithType: String
+  code: String
+  path: String
+  pathWithType: String
+  parentCode: String
+}
+
+type DistrictListResponseType {
+  totalItems: Float!
+  items: [DistrictResponseType!]
+}
+
+type WardResponseType {
+  name: String
+  slug: String
+  type: String
+  nameWithType: String
+  code: String
+  path: String
+  pathWithType: String
+  parentCode: String
+}
+
+type WardListResponseType {
+  totalItems: Float!
+  items: [WardResponseType!]
+}
+
 type Query {
   getProductList(input: ProductListRequestType!): ProductListResponseType!
   getListItemByCategory(input: ProductListByCategoryType!): ProductListResponseType!
@@ -143,6 +188,9 @@ type Query {
   getCategoryById(id: String!): CategoryResponseType!
   getUserList(input: UserListRequestType!): UserListResponseType!
   getUserAdminList(input: UserListRequestType!): UserListResponseType!
+  getListCityVN: CityListResponseType!
+  getListDistrictByCityCode(cityCode: String!): DistrictListResponseType!
+  getListWardByDistrictCode(districtCode: String!): WardListResponseType!
 }
 
 input ProductListRequestType {
@@ -249,7 +297,6 @@ input CategoryUpdateRequestType {
 }
 
 input SignUpRequestType {
-  userName: String!
   password: String!
   email: String!
   firstName: String!

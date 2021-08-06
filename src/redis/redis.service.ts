@@ -1,7 +1,7 @@
 import { CommonConstants } from "@constants/common.constants";
 import { EnvironmentService } from "@infrastructure/environment/environment.service";
 import { Injectable } from "@nestjs/common";
-import * as Redis from "ioredis";
+import Redis from "ioredis";
 
 @Injectable()
 export class RedisService {

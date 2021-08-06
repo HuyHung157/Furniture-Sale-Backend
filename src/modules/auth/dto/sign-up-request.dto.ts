@@ -6,9 +6,6 @@ import { CommonConstants } from '../../../infrastructure/constants/common.consta
 @InputType('SignUpRequestType')
 export class SignUpRequestDto {
   @Field()
-  userName: string;
-
-  @Field()
   password: string;
 
   @Field()
