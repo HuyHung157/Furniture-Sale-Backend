@@ -4,13 +4,15 @@ import { mapKeys } from 'lodash';
 import { CommonConstants } from '../constants/common.constants';
 import { EnvironmentModule } from '../environment/environment.module';
 import { EnvironmentService } from '../environment/environment.service';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 
 @Module({
   imports: [
-    GraphQLModule.forRootAsync({
+    GraphQLModule.forRootAsync<ApolloDriverConfig>({
+      driver: ApolloDriver,
       imports: [EnvironmentModule],
-      useFactory: async (environmentService: EnvironmentService) => {
-        const options: GqlModuleOptions = {
+      useFactory: async (environmentService: EnvironmentService) => { 
+        const options = {
           // TODO: REMOVE WHEN DEPLOY REAL PRODUCTION
           playground: !environmentService.isProductionMode(),
           introspection: true,
@@ -40,17 +42,6 @@ import { EnvironmentService } from '../environment/environment.service';
             });
           },
           subscriptions: {
-            path: `/${CommonConstants.END_POINT}`,
-            onConnect: async (connectionParams, websocket, context) => {
-              connectionParams = mapKeys(
-                connectionParams,
-                (value: string, key: string) => key.toLowerCase(),
-              );
-
-              return {
-                headers: connectionParams,
-              };
-            },
           },
         };
         return options;

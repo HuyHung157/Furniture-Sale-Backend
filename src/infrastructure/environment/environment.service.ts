@@ -49,10 +49,9 @@ export class EnvironmentService {
 
   public getTypeOrmConfig(config?: {
     entities: any[],
-  }): TypeOrmModuleOptions {
+  }) {
     return {
       type: 'postgres',
-
       host: this.getKey(CommonConstants.POSTGRES_HOST),
       port: parseInt(this.getKey(CommonConstants.POSTGRES_PORT)),
       username: this.getKey(CommonConstants.POSTGRES_USER),

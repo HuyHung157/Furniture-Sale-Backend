@@ -5,7 +5,7 @@ import Redis from "ioredis";
 
 @Injectable()
 export class RedisService {
-  private redis: Redis.Redis;
+  private redis: Redis;
 
   constructor(private environmentService: EnvironmentService) {
     this.redisNewInstance();

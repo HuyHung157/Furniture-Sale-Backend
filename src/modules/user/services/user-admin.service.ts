@@ -40,7 +40,7 @@ export class UserAdminService extends BaseService {
       throw new BadRequestException({ messageCode: 'DUPLICATED_EMAIL' });
     }
 
-    const userWithSamePhoneNumber = await this.userRepository.findOne({ phoneNumber, phoneNumberPrefix });
+    const userWithSamePhoneNumber = await this.userRepository.findOneByOrFail({ phoneNumber, phoneNumberPrefix });
     if (userWithSamePhoneNumber) {
       throw new BadRequestException({ messageCode: 'DUPLICATED_PHONE' });
     }
