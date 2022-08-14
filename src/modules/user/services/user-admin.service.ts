@@ -20,7 +20,7 @@ export class UserAdminService extends BaseService {
     private readonly authService: AuthService,
     protected readonly connection: Connection,
   ) {
-    super(connection)
+    super(connection);
   }
 
   async getUserAdminList(input: UserListRequestDto): Promise<any> {
@@ -33,14 +33,19 @@ export class UserAdminService extends BaseService {
     return { items, count };
   }
 
-  public async createUserAdmin(input: UserAdminCreateRequestDto): Promise<BaseResponseDto> {
+  public async createUserAdmin(
+    input: UserAdminCreateRequestDto,
+  ): Promise<BaseResponseDto> {
     const { email, phoneNumber, phoneNumberPrefix } = input;
     const userWithSameEmail = await this.authService.getUserByEmail(email);
     if (userWithSameEmail) {
       throw new BadRequestException({ messageCode: 'DUPLICATED_EMAIL' });
     }
 
-    const userWithSamePhoneNumber = await this.userRepository.findOneByOrFail({ phoneNumber, phoneNumberPrefix });
+    const userWithSamePhoneNumber = await this.userRepository.findOneBy({
+      phoneNumber,
+      phoneNumberPrefix,
+    });
     if (userWithSamePhoneNumber) {
       throw new BadRequestException({ messageCode: 'DUPLICATED_PHONE' });
     }
@@ -49,12 +54,12 @@ export class UserAdminService extends BaseService {
     const handler = async (queryRunner: QueryRunner) => {
       const manager = queryRunner.manager;
 
-      let accountData = {
+      const accountData = {
         email: input.email,
         password: await this.authService.hashPassword(input.password),
-      }
+      };
 
-      const account = await manager.save(Account, accountData) as Account;
+      const account = (await manager.save(Account, accountData)) as Account;
 
       const userData = {
         accountId: account.id,
@@ -70,15 +75,15 @@ export class UserAdminService extends BaseService {
         district: input.district,
         ward: input.ward,
         address: input.address,
-      }
+      };
 
-      user = await manager.save(User, userData) as User;
+      user = (await manager.save(User, userData)) as User;
 
       await manager.save(UserRole, {
         userId: user.id,
         role: UserRoleEnum.STAFF,
       });
-    }
+    };
 
     await this.performActionInTransaction(handler);
 

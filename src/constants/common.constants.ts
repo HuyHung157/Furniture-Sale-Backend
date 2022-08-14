@@ -3,7 +3,7 @@ export class CommonConstants {
   public static readonly PRODUCTION_ENV = 'production';
   public static readonly STAGING_ENV = 'staging';
   public static readonly DEV_ENV = 'dev';
-  public static readonly ENV_CONFIG_PATH = './config/.env';
+  public static readonly ENV_CONFIG_PATH = './.env';
 
   public static readonly WEB_APP_URL = 'WEB_APP_URL';
   public static readonly RESET_PASSWORD_PAGE = 'RESET_PASSWORD_PAGE';

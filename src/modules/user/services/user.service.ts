@@ -1,11 +1,17 @@
 import { BaseResponseDto } from '@infrastructure/models/base-response.dto';
 import { BaseService } from '@infrastructure/services/base.service';
+import { SignUpByProviderRequestDto } from '@modules/auth/dto/sign-in-provider-request.dto';
 import { SignInRequestDto } from '@modules/auth/dto/sign-in-request.dto';
 import { SignUpRequestDto } from '@modules/auth/dto/sign-up-request.dto';
 import { TokenDto } from '@modules/auth/dto/token.dto';
 import { Account } from '@modules/auth/models/account.entity';
 import { AuthService } from '@modules/auth/services/auth.service';
-import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  HttpException,
+  Injectable,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Connection, QueryRunner, Repository } from 'typeorm';
 import { UserListRequestDto } from '../dto/user-list-resquest';
@@ -21,13 +27,13 @@ export class UserService extends BaseService {
     private readonly authService: AuthService,
     protected readonly connection: Connection,
   ) {
-    super(connection)
+    super(connection);
   }
 
   async getUserList(input: UserListRequestDto): Promise<any> {
     const query = this.userRepository
       .createQueryBuilder('user')
-      .where('user.isActive = TRUE AND user.isArchived = FALSE')
+      .where('user.isActive = TRUE AND user.isArchived = FALSE');
 
     const [items, count] = await query.getManyAndCount();
     return { items, count };
@@ -40,21 +46,26 @@ export class UserService extends BaseService {
       throw new BadRequestException({ messageCode: 'DUPLICATED_EMAIL' });
     }
 
-    const userWithSamePhoneNumber = await this.userRepository.findOneByOrFail({ phoneNumber, phoneNumberPrefix });
+    const userWithSamePhoneNumber = await this.userRepository.findOneBy({
+      phoneNumber,
+      phoneNumberPrefix,
+    });
     if (userWithSamePhoneNumber) {
-      throw new BadRequestException({ messageCode: 'DUPLICATED_PHONE' });
+      // throw new BadRequestException({ messageCode: 'DUPLICATED_PHONE' });
+      // throw new Error(' DUPLICATED_PHONE ');
+      throw new HttpException({ messageCode: 'DUPLICATED_PHONE' }, 400);
     }
 
     let user: User;
     const handler = async (queryRunner: QueryRunner) => {
       const manager = queryRunner.manager;
 
-      let accountData = {
+      const accountData = {
         email: input.email,
         password: await this.authService.hashPassword(input.password),
-      }
+      };
 
-      const account = await manager.save(Account, accountData) as Account;
+      const account = (await manager.save(Account, accountData)) as Account;
 
       const userData = {
         accountId: account.id,
@@ -69,15 +80,15 @@ export class UserService extends BaseService {
         district: input.district,
         ward: input.ward,
         address: input.address,
-      }
+      };
 
-      user = await manager.save(User, userData) as User;
+      user = (await manager.save(User, userData)) as User;
 
       await manager.save(UserRole, {
         userId: user.id,
         role: UserRoleEnum.USER,
       });
-    }
+    };
 
     await this.performActionInTransaction(handler);
 
@@ -90,18 +101,18 @@ export class UserService extends BaseService {
 
   async signIn(input: SignInRequestDto): Promise<TokenDto> {
     const { email, password } = input;
-    const query = this.userRepository.
-      createQueryBuilder('user')
+    const query = this.userRepository
+      .createQueryBuilder('user')
       .where('user.isActive = TRUE AND user.isArchived = FALSE')
       .leftJoinAndSelect(
         'user.account',
         'account',
-        'account.isActive = TRUE AND account.isArchived = FALSE'
+        'account.isActive = TRUE AND account.isArchived = FALSE',
       )
       .leftJoinAndSelect(
         'user.userRoles',
         'userRoles',
-        'userRoles.isActive = TRUE AND userRoles.isArchived = FALSE'
+        'userRoles.isActive = TRUE AND userRoles.isArchived = FALSE',
       )
       .andWhere('account.email = :email', { email });
 
@@ -109,7 +120,7 @@ export class UserService extends BaseService {
     if (!user) {
       throw new BadRequestException({
         messageCode: 'ACCOUNT_INVALID',
-        message: 'User is not exist or has been deactivated'
+        message: 'User is not exist or has been deactivated',
       });
     }
 
@@ -117,25 +128,89 @@ export class UserService extends BaseService {
     if (!account) {
       throw new ForbiddenException({
         messageCode: 'ACCOUNT_INVALID',
-        message: 'User is not exist or has been deactivated'
+        message: 'User is not exist or has been deactivated',
       });
     }
 
-    const isPasswordMatch = this.authService.isPasswordMatch(password, account.password);
+    const isPasswordMatch = this.authService.isPasswordMatch(
+      password,
+      account.password,
+    );
     if (!isPasswordMatch) {
       throw new ForbiddenException({
         messageCode: 'ACCOUNT_INVALID',
-        message: 'Wrong password'
+        message: 'Wrong password',
       });
     }
 
     const [token, refreshToken] = await this.authService.generateToken({
       ...user.account,
-      user
-    })
+      user,
+    });
 
     return { token, refreshToken };
   }
 
+  async checkEmailUsed(email: string): Promise<boolean> {
+    const userCount = await this.userRepository
+      .createQueryBuilder('user')
+      .andWhere('user.isArchived = FALSE')
+      .andWhere('user.email = :email', { email })
+      .getCount();
+    return userCount > 0;
+  }
 
+  async signInWithProvider(
+    input: SignUpByProviderRequestDto,
+  ): Promise<TokenDto> {
+    const { email, providerId, firebaseUid } = input;
+    const userWithSameEmail = await this.authService.getUserByEmail(email);
+    let user;
+    if (userWithSameEmail) {
+      const userExisted = await this.userRepository
+        .createQueryBuilder('user')
+        .andWhere('user.isArchived = FALSE')
+        .andWhere('user.email = :email', { email })
+        .getOne();
+
+      const data = {
+        ...userExisted,
+        input,
+      };
+      await this.userRepository.save(data);
+    } else {
+      const handler = async (queryRunner: QueryRunner) => {
+        const manager = queryRunner.manager;
+        const accountData = {
+          email,
+          providerId,
+          firebaseUid,
+        };
+        const account = (await manager.save(Account, accountData)) as Account;
+
+        const userData = {
+          accountId: account.id,
+          email: account.email,
+          fullName: input.fullName,
+          profileUrl: input?.pictureUrl,
+        };
+
+        user = (await manager.save(User, userData)) as User;
+
+        await manager.save(UserRole, {
+          userId: user.id,
+          role: UserRoleEnum.USER,
+        });
+      };
+
+      await this.performActionInTransaction(handler);
+
+      const [token, refreshToken] = await this.authService.generateToken({
+        ...user.account,
+        user,
+      });
+
+      return { token, refreshToken };
+    }
+  }
 }

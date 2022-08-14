@@ -1,0 +1,47 @@
+version: "3.7"
+services:
+  be:
+    container_name: furniture-be
+    build:
+      context: .
+    depends_on:
+      - db
+      - redis
+    links:
+      - db
+      - redis
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+
+  db:
+    image: postgres:latest
+    container_name: db_local
+    restart: always
+    ports:
+      - '5432:5432'
+    env_file:
+      - ./.env
+    environment:
+      - POSTGRES_DB='furniture'
+      - POSTGRES_USER='postgres'
+      - POSTGRES_PASSWORD='123'
+    volumes:
+      - postgres_data_local:/var/lib/postgresql/data
+      - postgres_backup_local:/backups
+
+  redis:
+    restart: always
+    image: redis
+    container_name: redis_local
+    ports:
+      - '6379:6379'
+    env_file:
+      - ./.env
+    # command: 'redis-server'
+    command: 'redis-server --requirepass RedisP@ssw0rd'
+
+volumes:
+  postgres_data_local:
+  postgres_backup_local:

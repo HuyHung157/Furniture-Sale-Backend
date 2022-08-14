@@ -9,6 +9,7 @@ export class User extends BaseEntity{
     name: 'first_name',
     type: 'varchar',
     length: 100,
+    nullable: true,
   })
   firstName: string;
 
@@ -16,8 +17,17 @@ export class User extends BaseEntity{
     name: 'last_name',
     type: 'varchar',
     length: 100,
+    nullable: true,
   })
   lastName: string;
+
+  @Column({
+    name: 'full_name',
+    type: 'varchar',
+    length: 100,
+    nullable: true,
+  })
+  fullName: string;
 
   @Column({
     name: 'email',

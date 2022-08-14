@@ -133,6 +133,10 @@ type TokenType {
   refreshToken: String!
 }
 
+type CheckEmailUsedType {
+  isEmailUsed: Boolean!
+}
+
 type CityResponseType {
   name: String
   slug: String
@@ -187,6 +191,7 @@ type Query {
   getListCategoryShowHome: CategoryProductListResponseType!
   getCategoryById(id: String!): CategoryResponseType!
   getUserList(input: UserListRequestType!): UserListResponseType!
+  checkEmailUsed(email: String!): CheckEmailUsedType!
   getUserAdminList(input: UserListRequestType!): UserListResponseType!
   getListCityVN: CityListResponseType!
   getListDistrictByCityCode(cityCode: String!): DistrictListResponseType!
@@ -237,6 +242,7 @@ type Mutation {
   deleteCategory(id: String!): BaseResponseType!
   signUp(input: SignUpRequestType!): BaseResponseType!
   signIn(input: SignInRequestType!): TokenType!
+  signInWithProvider(input: SignUpByProviderRequestType!): TokenType!
   createUserAdmin(input: UserAdminCreateRequestType!): BaseResponseType!
 }
 
@@ -320,6 +326,14 @@ enum Gender {
 input SignInRequestType {
   email: String!
   password: String!
+}
+
+input SignUpByProviderRequestType {
+  email: String!
+  fullName: String!
+  firebaseUid: String!
+  providerId: String!
+  pictureUrl: String!
 }
 
 input UserAdminCreateRequestType {
