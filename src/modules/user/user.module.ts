@@ -1,4 +1,5 @@
 import { EnvironmentModule } from '@infrastructure/environment/environment.module';
+import { MailModule } from '@infrastructure/mail/mail.module';
 import { AuthModule } from '@modules/auth/auth.module';
 import { JwtModule } from '@modules/jwt/jwt.module';
 import { Module } from '@nestjs/common';
@@ -17,17 +18,10 @@ import { UserService } from './services/user.service';
     JwtModule,
     RedisModule,
     EnvironmentModule,
-    TypeOrmModule.forFeature([
-      User,
-      UserRole
-    ]),
+    TypeOrmModule.forFeature([User, UserRole]),
+    MailModule,
   ],
-  providers: [
-    UserResolver,
-    UserAdminResolver,
-    UserService,
-    UserAdminService,
-  ],
+  providers: [UserResolver, UserAdminResolver, UserService, UserAdminService],
   exports: [UserService],
 })
-export class UserModule { }
+export class UserModule {}

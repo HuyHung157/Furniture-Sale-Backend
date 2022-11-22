@@ -1,6 +1,7 @@
-import { Entity, Column, OneToMany } from 'typeorm'
-import { BaseEntity } from "src/infrastructure/models/base.entity"
+import { Entity, Column, OneToMany, ManyToOne, JoinColumn } from 'typeorm';
+import { BaseEntity } from 'src/infrastructure/models/base.entity';
 import { ProductCategory } from '@modules/category/models/product-category.entity';
+import { GroupProduct } from '@modules/group-product/models/group-product.entity';
 
 @Entity({ name: 'product' })
 export class Product extends BaseEntity {
@@ -10,7 +11,7 @@ export class Product extends BaseEntity {
   //   type: 'varchar',
   //   length: 10,
   //   unique: true
-  // }) 
+  // })
   // productCode: string;
 
   @Column('varchar', { length: 500, unique: true })
@@ -27,7 +28,7 @@ export class Product extends BaseEntity {
     name: 'index',
     type: 'numeric',
     nullable: true,
-    unique: true
+    unique: true,
   })
   index: number;
 
@@ -48,9 +49,9 @@ export class Product extends BaseEntity {
   @Column({
     name: 'reference_price',
     type: 'float',
-    default: 0
+    default: 0,
   })
-  referencePrice
+  referencePrice;
 
   @Column({
     name: 'discount',
@@ -80,6 +81,12 @@ export class Product extends BaseEntity {
   })
   pictureUrl: string;
 
-  @OneToMany(() => ProductCategory, productCate => productCate.product, { nullable: true, })
+  @OneToMany(() => ProductCategory, (productCate) => productCate.category)
   categories: ProductCategory[];
+
+  @ManyToOne(() => GroupProduct, (groupProd) => groupProd.products, {
+    nullable: true,
+  })
+  @JoinColumn({ name: 'group_product_id' })
+  groupProduct: GroupProduct;
 }

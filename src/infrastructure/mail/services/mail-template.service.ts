@@ -10,18 +10,27 @@ import { MailTemplate } from '../interfaces/mail-template.interface';
 export class MailTemplateService {
   private readonly logger = new Logger(MailTemplateService.name);
 
-  constructor(private readonly environmentService: EnvironmentService) { }
+  constructor(private readonly environmentService: EnvironmentService) {}
 
   /**
    * Fetch email tempalte
    */
-  public async fetchTemplate(templateName: string, data: any, language = 'en'): Promise<MailTemplate> {
-    const envTemplatesPath = this.environmentService.getKey(CommonConstants.MAIL_TEMPLATES_PATH);
+  public async fetchTemplate(
+    templateName: string,
+    data: any,
+    language = 'en',
+  ): Promise<MailTemplate> {
+    const envTemplatesPath = this.environmentService.getKey(
+      CommonConstants.MAIL_TEMPLATES_PATH,
+    );
     if (!envTemplatesPath) {
       this.logger.error('MAIL_TEMPLATES_PATH not found');
     }
     const email = this.getEmailObject(envTemplatesPath, language);
-    const result: MailTemplate = await email.renderAll(templateName, data) as MailTemplate;
+    const result: MailTemplate = (await email.renderAll(
+      templateName,
+      data,
+    )) as MailTemplate;
     if (!result.subject) {
       this.logger.warn('Missing mail subject');
     }
@@ -37,14 +46,25 @@ export class MailTemplateService {
   /**
    * Fetch SMS template
    */
-  public async fetchSmsTemplate(templateName: string, data: any, language = 'en'): Promise<SmsTemplate> {
-    const envTemplatesPath = this.environmentService.getKey(CommonConstants.SMS_TEMPLATES_PATH);
+  public async fetchSmsTemplate(
+    templateName: string,
+    data: any,
+    language = 'en',
+  ): Promise<SmsTemplate> {
+    const envTemplatesPath = this.environmentService.getKey(
+      CommonConstants.SMS_TEMPLATES_PATH,
+    );
     if (!envTemplatesPath) {
       this.logger.error('SMS_TEMPLATES_PATH not found');
     }
     const email = this.getEmailObject(envTemplatesPath, language);
-    const result: SmsTemplate = await email.renderAll(templateName, data) as MailTemplate;
-    Object.keys(result).forEach(key => { result[key] = result[key].trim(); });
+    const result: SmsTemplate = (await email.renderAll(
+      templateName,
+      data,
+    )) as MailTemplate;
+    Object.keys(result).forEach((key) => {
+      result[key] = result[key].trim();
+    });
     if (!result.text) {
       this.logger.warn('Missing sms text');
     }
@@ -52,7 +72,11 @@ export class MailTemplateService {
   }
 
   private getEmailObject(envTemplatesPath: string, language = 'en') {
-    const segments = [__dirname, envTemplatesPath, language.toLowerCase()].filter(v => v);
+    const segments = [
+      __dirname,
+      envTemplatesPath,
+      language.toLowerCase(),
+    ].filter((v) => v);
     const templatesPath = path.resolve(...segments);
     const email = new Email({
       message: {},

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Commande validée</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <style>
+    body {
+      margin: auto;
+      color: #414143;
+      font-family: 'Lato', sans-serif;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 28px;
+      letter-spacing: 0.005em;
+      background-color: #FFF;
+    }
+
+    header {
+      text-align: center;
+      padding: 16px;
+    }
+
+    header .logo {
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    header .logo img {
+      width: 250px;
+      max-width: 70%;
+    }
+
+    .container {
+      background-color: #FFF;
+      width: 600px;
+      max-width: 80%;
+      margin: 0 auto;
+      padding: 24px 44px 53px;
+    }
+
+    .content {
+      margin: 0 auto;
+      font-size: 14px;
+      line-height: 20px;
+    }
+
+    h1 {
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 24px;
+      margin: 0;
+    }
+
+    .bg-secondary {
+      background-color: #F9F8F5;
+    }
+
+    .border-primary {
+      border: 1px solid #AB9976;
+    }
+
+    .border-block {
+      border: 1px solid #AB9976;
+      padding: 8px;
+    }
+
+    .black {
+      color: #000000;
+    }
+
+    .content p {
+      font-weight: 400;
+      margin: 0;
+    }
+
+    .action {
+      margin: 24px auto;
+      text-align: center;
+    }
+
+    .m__b--12 {
+      margin-bottom: 12px !important;
+    }
+
+    .m__b--20 {
+      margin-bottom: 20px !important;
+    }
+
+    .p--8 {
+      padding: 8px !important;
+    }
+
+    .p--10 {
+      padding: 10px !important;
+    }
+
+    .m__r--11 {
+      margin-right: 11px !important;
+    }
+
+    a {
+      color: #2A6EAD;
+    }
+
+    .button-reset {
+      background-color: #AB9976;
+      color: white;
+      border: 1px solid #AB9976;
+      text-decoration: none;
+      padding: 8px 16px;
+      text-transform: uppercase;
+      font-size: 20px;
+    }
+
+    .bg-secondary span {
+      text-decoration: inherit;
+      color: inherit;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <header>
+      <div class="logo">
+        <img data-inline-ignore
+          src="https://firebasestorage.googleapis.com/v0/b/lebourdonnec-staging.appspot.com/o/public-resources%2FLebourdonnec_logo_sans_RVB%20(1).png?alt=media&token=aec3fe4b-1716-4759-a3b9-89705e0e5070"
+          alt="logo" />
+      </div>
+    </header>
+
+    <div class="content">
+      <p class='m__b--20'>Bonjour</p>
+
+      <p class='m__b--20'>Vous avez demandé la réinitialisation de votre mot de passe.</p>
+
+      <p class='m__b--20'>En cliquant ci-dessous, vous pourrez choisir un nouveau mot de passe et accéder à votre
+        compte
+        client Maison Le Bourdonnec</p>
+
+      <div class="action m__b--20">
+        <a class='button-reset' href="<%= link %>">
+          <span>Réinitialiser mon mot de passe</span>
+        </a>
+      </div>
+
+      <p class='m__b--20 '>Ce lien est valable 1h. Passé ce délai, vous devrez renouveler votre demande sur le site.</p>
+
+      <div class="order-detail__common-info ">
+        <p class='m__b--20 '>Nous vous remercions de votre confiance et vous souhaitons une très belle journée,
+        </p>
+        <p class='m__b--20 '>A très vite,</p>
+      </div>
+
+      <div class="order-detail__common-info m__b--20">
+        <p class="strong">L’équipe Maison Le Bourdonnec.</p>
+        <a href="mailto:contact@groupelebourdonnec.com">contact@groupelebourdonnec.com</a>
+      </div>
+
+      <div class="order-detail__common-info">
+        <p class="m__b--20">Une question?</p>
+        <p class="m__b--20">
+          <span> Consultez notre </span>
+          <a href="<%= page.faq %>">FAQ</a>
+          <span>ou écrivez-nous, nous vous répondrons avec plaisir. </span>
+        </p>
+      </div>
+
+      <div class="order-detail__common-info">
+        <a href="<%= page.toBuy %>">ACHETER EN LIGNE</a>
+        <span>-</span>
+        <a href="<%= page.cgv %>">CONDITIONS D’UTILISATION ET DE VENTE</a>
+        <span>-</span>
+        <a href="<%= page.faq %>">QUESTIONS FRÉQUENTES</a>
+        <span>-</span>
+        <a href="<%= page.delivery %>">LIVRAISONS</a>
+        <span>-</span>
+        <a href="<%= page.personal %>">RGPD</a>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+
+</html>

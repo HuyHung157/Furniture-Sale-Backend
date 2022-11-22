@@ -305,22 +305,8 @@ input CategoryUpdateRequestType {
 input SignUpRequestType {
   password: String!
   email: String!
-  firstName: String!
-  lastName: String!
-  birthday: DateTime!
-  gender: Gender!
   phoneNumber: String!
   phoneNumberPrefix: String!
-  address: String!
-  ward: String!
-  district: String!
-  city: String!
-}
-
-enum Gender {
-  MALE
-  FEMALE
-  OTHER
 }
 
 input SignInRequestType {
@@ -350,4 +336,10 @@ input UserAdminCreateRequestType {
   ward: String
   district: String
   city: String
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
 }

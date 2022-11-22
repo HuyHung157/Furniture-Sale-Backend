@@ -41,8 +41,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
               }
             });
           },
-          subscriptions: {
-          },
+          subscriptions: {},
         };
         return options;
       },

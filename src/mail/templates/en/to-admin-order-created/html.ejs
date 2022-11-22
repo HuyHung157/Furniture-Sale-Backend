@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Nouvelle commande passée</title>
+
+    <link
+            href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;600&display=swap"
+            rel="stylesheet"
+    />
+
+    <style>
+        body {
+            margin: auto;
+            color: black;
+            font-family: 'Cabin', sans-serif;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 20px;
+            line-height: 28px;
+            letter-spacing: 0.005em;
+        }
+
+        header,
+        footer {
+            text-align: center;
+            padding: 16px;
+        }
+
+        header .logo{
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        header .logo img {
+            width: 250px;
+            max-width: 70%;
+        }
+
+        footer {
+            font-size: 18px;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        hr {
+            width: 500px;
+            max-width: 80%;
+            height: 1px;
+            background: #D2624A;
+            border: none;
+        }
+
+        p {
+            margin-bottom: 12px;
+        }
+
+        .content {
+            width: 640px;
+            max-width: 80%;
+            margin: 0 auto;
+            text-align: justify;
+            font-size: 18px;
+        }
+
+        .content .bold, .strong {
+            font-weight: 600;
+        }
+
+        .block-space {
+            height: 32px;
+        }
+
+        .img-product {
+            height: 40px;
+            width: 40px;
+        }
+
+        table {
+            width: 100%
+        }
+
+        .table-collapse {
+            border-collapse: collapse;
+        }
+
+        .delivery-info .address-column {
+            border-right: 1px solid #938280;
+        }
+
+        table.order-detail__item-info tr .value,
+        table.table__order-detail .value {
+            text-align: right;
+            font-weight: 700;
+        }
+
+        table.order-detail__item-info {
+            border-spacing: 0 8px;
+        }
+
+        table.order-detail__item-info {
+            margin: 0;
+            border: none;
+            width: 100%;
+        }
+
+        table.order-detail__item-info tr {
+            margin-bottom: 16px;
+            padding: 0;
+        }
+
+        table.table__order-detail .label-amount {
+            text-align: right;
+            border-right: 1px solid white;
+            margin: 0 8px;
+        }
+
+        .table.table__order-detail .label-amount--bold {
+            font-weight: bold;
+        }
+
+        table.table__order-detail tr td {
+            padding: 8px;
+        }
+
+        table.table__order-detail .row-amount td {
+            border-bottom: 1px solid #fff;
+        }
+
+        table.table__order-detail tr td:first-child {
+            width: 56px !important;
+        }
+
+        table.table__order-detail tr .weight {
+            width: 128px;
+            text-align: right;
+        }
+
+        .table__order-detail {
+            border-spacing: unset;
+        }
+
+
+
+
+    </style>
+</head>
+
+<body>
+<header>
+    <div class="logo">
+        <img data-inline-ignore src="https://firebasestorage.googleapis.com/v0/b/lebourdonnec-staging.appspot.com/o/public-resources%2FLebourdonnec_logo_sans_RVB%20(1).png?alt=media&token=aec3fe4b-1716-4759-a3b9-89705e0e5070"
+             alt="logo" />
+    </div>
+</header>
+
+<hr />
+
+<div class="content">
+    <h4>
+        Une nouvelle commande a été passée
+    </h4>
+
+    <div class="block-space">&nbsp;</div>
+
+    <p><span class='strong'>Type de commande:</span>
+        <% if (order.type === 'DELIVERY') { %>
+            livraison
+        <% } %>
+        <% if (order.type === 'IN_STORE') { %>
+            Click and Collect
+        <% } %>
+    </p>
+    <p>
+        <span class='strong'>Échéance: </span>
+        <% if (order.pickupTime) { %>
+            Retrait en magasin: <%= shop.pickupDate %>, entre <%= shop.pickupTime %> et <%= shop.endPickupTime %>
+        <% } %>
+        <% if (order.deliveryTime) { %>
+            Réception chez le client: <%= order.deliveryTime; %>
+        <% } %>
+    </p>
+
+    <div class="block-space">&nbsp;</div>
+
+    <p><span class='strong'>Client:</span> <%= user.firstName; %> <%= user.lastName; %></p>
+    <p><span class='strong'>Téléphone:</span> <%= user.phone; %></p>
+    <p><span class='strong'>Email:</span> <%= user.email; %></p>
+    <p><span class='strong'>Remarques:</span> <%= order.comment; %></p>
+
+    <div class="block-space">&nbsp;</div>
+
+    <p class='strong'>Commande:</p>
+
+    <table class='table__order-detail border-primary' cellspacing="0" cellpadding="0">
+        <tr class='product-title'>
+            <td class="label">Référence Apitic</td>
+            <td class="label">Quantité</td>
+            <td class="label">Nom du lot</td>
+            <td class="weight">Poids du lot</td>
+        </tr>
+        <% for(var i = 0; i < order.items.length; i++) { %>
+        <tr class='product-item'>
+            <td class="label"><%= order.items[i].apiticId; %></td>
+            <td class="label"><%= order.items[i].quantity; %> x</td>
+            <td class="label"><%= order.items[i].name; %></td>
+            <td class="weight"><%= order.items[i].quantity; %> x <%= order.items[i].weight; %> kg</td>
+        </tr>
+        <% } %>
+
+        <tr class='bg-primary row-amount'>
+          <td colspan='3' class="label-amount label " style="font-weight: bold;">
+            <p>Montant de la commande :</p>
+          </td>
+          <td class="value" style='width:20%; padding-left: 16px;'><%= order.amountOrder; %> €</td>
+        </tr>
+        <tr class='bg-secondary row-amount'>
+          <td colspan='3' class="label-amount label ">Frais de livraison :</td>
+          <td class="value" style='width:20%; padding-left: 16px;'><%= order.deliveryCost; %> €</td>
+        </tr>
+        <tr class='bg-secondary row-amount'>
+          <td colspan='3' class="label-amount label">Montant total :</td>
+          <td class="value" style='width:20%; padding-left: 16px;'><%= order.totalCost; %> €</td>
+        </tr>
+    </table>
+
+    <div class="block-space">&nbsp;</div>
+
+    <% if (order.type === 'DELIVERY') { %>
+    <p class='strong'>Adresse de livraison:</p>
+    <p><%= delivery.receiverName %></p>
+    <p><%= delivery.address%></p>
+    <p class='provider'>
+        <span style='margin-right: 11px'>Livraison par </span>
+        <% if (order.type === 'DELIVERY' && order.deliveryProvider === 'CHRONOPOST') { %>
+        <img data-inline-ignore width="100"
+            src="https://firebasestorage.googleapis.com/v0/b/lebourdonnec-staging.appspot.com/o/public-resources%2Fchronofresh.png?alt=media&token=6a0984da-31a6-4371-b43b-5cb284fa5db9"
+            alt="Chronofresh logo">
+        <% } %>
+        <% if (order.type === 'DELIVERY' && order.deliveryProvider === 'STUART') { %>
+        <img data-inline-ignore width="70"
+            src="https://firebasestorage.googleapis.com/v0/b/lebourdonnec-staging.appspot.com/o/public-resources%2Fstuart.png?alt=media&token=1d8ae119-d663-495d-8ace-8959c3b645f2"
+            alt="stuart logo">
+        <% } %>
+    </p>
+    <p>Commentaire: <%= delivery.comment%></p>
+    <% } %>
+
+</div>
+</body>
+</html>

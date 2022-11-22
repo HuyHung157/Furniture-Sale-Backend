@@ -1,3 +1,5 @@
+import { MailTemplateService } from '@infrastructure/mail/services/mail-template.service';
+import { MailService } from '@infrastructure/mail/services/mail.service';
 import { BaseResponseDto } from '@infrastructure/models/base-response.dto';
 import { BaseService } from '@infrastructure/services/base.service';
 import { SignUpByProviderRequestDto } from '@modules/auth/dto/sign-in-provider-request.dto';
@@ -26,6 +28,8 @@ export class UserService extends BaseService {
     private readonly userRepository: Repository<User>,
     private readonly authService: AuthService,
     protected readonly connection: Connection,
+    protected readonly mailTemplateService: MailTemplateService,
+    protected readonly mailService: MailService,
   ) {
     super(connection);
   }
@@ -70,16 +74,9 @@ export class UserService extends BaseService {
       const userData = {
         accountId: account.id,
         email: account.email,
-        firstName: input.firstName,
-        lastName: input.lastName,
-        gender: input.gender,
-        birthday: input.birthday,
         phoneNumberPrefix: input.phoneNumberPrefix,
         phoneNumber: input.phoneNumber,
-        city: input.city,
-        district: input.district,
-        ward: input.ward,
-        address: input.address,
+        createdBy: 'USER',
       };
 
       user = (await manager.save(User, userData)) as User;
@@ -93,7 +90,29 @@ export class UserService extends BaseService {
     await this.performActionInTransaction(handler);
 
     if (user) {
-      //TODO send mail create to email create
+      //TODO: send mail create to email create
+      const templateData = {
+        userFirstName: 'ádasda',
+        link: 'a',
+        page: {
+          faq: 'a',
+          delivery: 'a',
+          cgv: 'a',
+          personal: 'a',
+          toBuy: 'a',
+        },
+      };
+
+      const template = await this.mailTemplateService.fetchTemplate(
+        'reset-password',
+        templateData,
+      );
+      await this.mailService.sendMail({
+        to: user.email,
+        subject: template.subject,
+        html: template.html,
+        text: template.text,
+      });
     }
 
     return new BaseResponseDto('Created success !', 200);

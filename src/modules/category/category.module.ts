@@ -1,3 +1,4 @@
+import { GroupProduct } from '@modules/group-product/models/group-product.entity';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { EnvironmentModule } from 'src/infrastructure/environment/environment.module';
@@ -9,12 +10,9 @@ import { CategoryService } from './services/category.service';
 @Module({
   imports: [
     EnvironmentModule,
-    TypeOrmModule.forFeature([
-      Category,
-      ProductCategory
-    ]),
+    TypeOrmModule.forFeature([Category, ProductCategory, GroupProduct]),
   ],
   providers: [CategoryResolver, CategoryService],
   exports: [CategoryService],
 })
-export class CategoryModule { }
+export class CategoryModule {}

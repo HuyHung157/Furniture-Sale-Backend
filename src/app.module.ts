@@ -12,6 +12,7 @@ import { AuthModule } from '@modules/auth/auth.module';
 import { UserModule } from '@modules/user/user.module';
 import { RedisModule } from './redis/redis.module';
 import { DataVnModule } from '@modules/data-vn/data-vn.module';
+import { GroupProductModule } from '@modules/group-product/group-product.module';
 
 @Module({
   imports: [
@@ -20,10 +21,11 @@ import { DataVnModule } from '@modules/data-vn/data-vn.module';
     DatabaseModule,
     WinstonModule,
     ProductModule,
+    GroupProductModule,
     CategoryModule,
     UserModule,
     AuthModule,
-    DataVnModule
+    DataVnModule,
   ],
   controllers: [AppController],
   providers: [
@@ -37,4 +39,4 @@ import { DataVnModule } from '@modules/data-vn/data-vn.module';
     },
   ],
 })
-export class AppModule { }
+export class AppModule {}

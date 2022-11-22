@@ -25,7 +25,7 @@ export class LoggingInterceptor implements NestInterceptor {
     const processUuid = v4();
     gqlContext.req.processUuid = processUuid;
     const handler = context.getArgByIndex(3);
-    const handlerName = handler.fieldName;
+    const handlerName = handler?.fieldName || '';
     const parentType = handler.parentType.name;
 
     this.logger.log(
@@ -38,8 +38,9 @@ export class LoggingInterceptor implements NestInterceptor {
       .pipe(
         tap(() =>
           this.logger.log(
-            `Finished process '${processUuid}' » type: '${parentType}' » handler: '${handlerName}' after: '${Date.now() -
-              now}ms'`,
+            `Finished process '${processUuid}' » type: '${parentType}' » handler: '${handlerName}' after: '${
+              Date.now() - now
+            }ms'`,
           ),
         ),
       );

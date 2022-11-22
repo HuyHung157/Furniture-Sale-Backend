@@ -108,16 +108,16 @@ export class CommonConstants {
   public static readonly PERCENT_SIGN = '%';
 
   // FIREBASE ADMIN
-  public static readonly FIREBASE_ADMIN_TYPE = 'FIREBASE_ADMIN_TYPE'
-  public static readonly FIREBASE_ADMIN_PROJECT_ID = 'FIREBASE_ADMIN_PROJECT_ID'
-  public static readonly FIREBASE_ADMIN_PRIVATE_KEY_ID = 'FIREBASE_ADMIN_PRIVATE_KEY_ID'
-  public static readonly FIREBASE_ADMIN_PRIVATE_KEY = 'FIREBASE_ADMIN_PRIVATE_KEY'
-  public static readonly FIREBASE_ADMIN_CLIENT_EMAIL = 'FIREBASE_ADMIN_CLIENT_EMAIL'
-  public static readonly FIREBASE_ADMIN_CLIENT_ID = 'FIREBASE_ADMIN_CLIENT_ID'
-  public static readonly FIREBASE_ADMIN_AUTH_URI = 'FIREBASE_ADMIN_AUTH_URI'
-  public static readonly FIREBASE_ADMIN_TOKEN_URI = 'FIREBASE_ADMIN_TOKEN_URI'
-  public static readonly FIREBASE_ADMIN_AUTH_PROVIDER_X509_CERT_URL = 'FIREBASE_ADMIN_AUTH_PROVIDER_X509_CERT_URL'
-  public static readonly FIREBASE_ADMIN_CLIENT_X509_CERT_URL = 'FIREBASE_ADMIN_CLIENT_X509_CERT_URL'
+  public static readonly FIREBASE_ADMIN_TYPE = 'FIREBASE_ADMIN_TYPE';
+  public static readonly FIREBASE_ADMIN_PROJECT_ID = 'FIREBASE_ADMIN_PROJECT_ID';
+  public static readonly FIREBASE_ADMIN_PRIVATE_KEY_ID = 'FIREBASE_ADMIN_PRIVATE_KEY_ID';
+  public static readonly FIREBASE_ADMIN_PRIVATE_KEY = 'FIREBASE_ADMIN_PRIVATE_KEY';
+  public static readonly FIREBASE_ADMIN_CLIENT_EMAIL = 'FIREBASE_ADMIN_CLIENT_EMAIL';
+  public static readonly FIREBASE_ADMIN_CLIENT_ID = 'FIREBASE_ADMIN_CLIENT_ID';
+  public static readonly FIREBASE_ADMIN_AUTH_URI = 'FIREBASE_ADMIN_AUTH_URI';
+  public static readonly FIREBASE_ADMIN_TOKEN_URI = 'FIREBASE_ADMIN_TOKEN_URI';
+  public static readonly FIREBASE_ADMIN_AUTH_PROVIDER_X509_CERT_URL = 'FIREBASE_ADMIN_AUTH_PROVIDER_X509_CERT_URL';
+  public static readonly FIREBASE_ADMIN_CLIENT_X509_CERT_URL = 'FIREBASE_ADMIN_CLIENT_X509_CERT_URL';
 
   // FIREBASE
   public static readonly FIREBASE_API_KEY = 'FIREBASE_API_KEY';
@@ -152,5 +152,5 @@ export class CommonConstants {
 
   // PUB-SUB
   public static readonly PUB_SUB = 'PUB_SUB';
-  public static readonly END_POINT = 'graphql'
+  public static readonly END_POINT = 'graphql';
 }

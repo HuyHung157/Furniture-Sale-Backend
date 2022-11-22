@@ -1,24 +1,25 @@
-import { Entity, Column, OneToMany } from "typeorm";
-import { BaseEntity } from "src/infrastructure/models/base.entity";
-import { ProductCategory } from "./product-category.entity";
+import { Entity, Column, OneToMany } from 'typeorm';
+import { BaseEntity } from 'src/infrastructure/models/base.entity';
+import { ProductCategory } from './product-category.entity';
+import { GroupProduct } from '@modules/group-product/models/group-product.entity';
 
 @Entity({ name: 'category' })
 export class Category extends BaseEntity {
-  @Column({ 
+  @Column({
     type: 'varchar',
-    length: 500, 
-    unique: true
+    length: 500,
+    unique: true,
   })
   name: string;
 
-  @Column({ 
+  @Column({
     type: 'varchar',
-    length: 500, 
-    nullable: true
+    length: 500,
+    nullable: true,
   })
   type?: string;
 
-  @Column({ 
+  @Column({
     name: 'index',
     type: 'numeric',
   })
@@ -47,18 +48,25 @@ export class Category extends BaseEntity {
 
   @Column({
     name: 'is_show_home',
-    type: 'boolean', 
-    default: false
+    type: 'boolean',
+    default: false,
   })
   isShowHome: boolean;
 
   @Column({
     name: 'index_home',
-    type: 'numeric', 
+    type: 'numeric',
     nullable: true,
   })
   indexHome: number;
 
-  @OneToMany(() => ProductCategory, productCate => productCate.category, { nullable: true, })
+  @OneToMany(() => ProductCategory, (productCate) => productCate.category, {
+    nullable: true,
+  })
   products: ProductCategory[];
+
+  @OneToMany(() => GroupProduct, (groupProd) => groupProd.categories, {
+    nullable: true,
+  })
+  groupProducts: GroupProduct[];
 }

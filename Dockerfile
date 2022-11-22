@@ -1,15 +1,17 @@
 FROM node:12.13-alpine
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
-COPY package*.json ./
+COPY package.json .
 
 RUN npm install
 
-COPY ./config ./config
-
-COPY ./json ./json
-
 COPY ./dist ./dist
+
+# COPY ./src/views ./views
+
+# COPY ./src/mail/templates ./dist/mail/templates
+
+# COPY ./ormconfig.js ./ormconfig.js
 
 CMD ["node", "dist/main"]

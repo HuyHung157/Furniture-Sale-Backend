@@ -14,12 +14,21 @@ import { MailService } from './services/mail.service';
   providers: [
     {
       provide: MailService,
-      useFactory: (environmentService: EnvironmentService, logger: LoggerService) => {
-        const mailProvider = environmentService.getKey(CommonConstants.MAIL_PROVIDER);
+      useFactory: (
+        environmentService: EnvironmentService,
+        logger: LoggerService,
+      ) => {
+        const mailProvider = environmentService.getKey(
+          CommonConstants.MAIL_PROVIDER,
+        );
         if (mailProvider) {
-          if (mailProvider.toLowerCase() === CommonConstants.MAIL_PROVIDER_SMTP) {
+          if (
+            mailProvider.toLowerCase() === CommonConstants.MAIL_PROVIDER_SMTP
+          ) {
             return new MailSmtpService(logger, environmentService);
-          } else if (mailProvider.toLowerCase() === CommonConstants.MAIL_PROVIDER_MAILGUN) {
+          } else if (
+            mailProvider.toLowerCase() === CommonConstants.MAIL_PROVIDER_MAILGUN
+          ) {
             return new MailMailgunService(logger, environmentService);
           }
         }
@@ -27,8 +36,8 @@ import { MailService } from './services/mail.service';
       },
       inject: [EnvironmentService, WINSTON_MODULE_NEST_PROVIDER],
     },
-    MailTemplateService
+    MailTemplateService,
   ],
   exports: [MailService, MailTemplateService],
 })
-export class MailModule { }
+export class MailModule {}

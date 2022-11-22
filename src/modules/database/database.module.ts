@@ -1,4 +1,5 @@
 import { Account } from '@modules/auth/models/account.entity';
+import { GroupProduct } from '@modules/group-product/models/group-product.entity';
 import { UserRole } from '@modules/user/models/user-role.entity';
 import { User } from '@modules/user/models/user.entity';
 import { Module } from '@nestjs/common';
@@ -11,6 +12,7 @@ const registeredPgModule = InfraPgModule.register({
   entities: [
     Product,
     Category,
+    GroupProduct,
     ProductCategory,
     User,
     UserRole,

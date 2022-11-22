@@ -117,5 +117,5 @@ export class CommonConstants {
 
   // PUB-SUB
   public static readonly PUB_SUB = 'PUB_SUB';
-  public static readonly END_POINT = 'graphql'
+  public static readonly END_POINT = 'graphql';
 }
